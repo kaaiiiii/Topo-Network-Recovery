@@ -35,8 +35,8 @@
       "sha256": "98a92f215d768a7f961c7f50b84c2b2c62e4980e0e7505107082b0a971ab16e4"
     },
     "README.md": {
-      "bytes": 1241,
-      "sha256": "2946bcf9536f69e0fdc3f8454faa11f62501dcc401c9652ace28a152fea2b4c3"
+      "bytes": 1347,
+      "sha256": "c667b4f984f022831091293e7751fc7fba3d8f8490d2549e621a0ae84da3b07f"
     },
     "sis/dynamics_and_prediction.png": {
       "bytes": 170333,
@@ -129,6 +129,50 @@
     "sis_aware/editorial_revision.json": {
       "bytes": 392,
       "sha256": "584ba99b06455c9e010b11b333ed4eb5b96665ff15f6bb8fcd6c4e2e10b12062"
+    },
+    "sis_local_poly/metrics.csv": {
+      "bytes": 13835,
+      "sha256": "f5c1f7cf03be28ea47d85e83d2cdd2e0f163411219b887807ff4bd7a96da8f3c"
+    },
+    "sis_local_poly/network_example_noisy.png": {
+      "bytes": 587155,
+      "sha256": "54826b67ea61dab181949bd5724bd983a6819b03c1c3830cc2de80b1f5910741"
+    },
+    "sis_local_poly/paired_differences.csv": {
+      "bytes": 3132,
+      "sha256": "409c56505e2d8ab76a0bee5fbbca680e4291b32f659764c16a43ea76f3afc11c"
+    },
+    "sis_local_poly/precision_recall_noisy.png": {
+      "bytes": 104397,
+      "sha256": "50554ca0ce4e56706823dad4f5e0f0b363159dce4615d3f5c85ecef6521e5595"
+    },
+    "sis_local_poly/preprocessing_example.png": {
+      "bytes": 163446,
+      "sha256": "965ebc8dd23c7223524bc7d64d4fbc96feca101c298ab484241556c7208c9493"
+    },
+    "sis_local_poly/protocol.json": {
+      "bytes": 9141,
+      "sha256": "a8292b4c09111ce5342b60f4a0b0664aa2416a14b0a7f5434c9a7e140085b3d0"
+    },
+    "sis_local_poly/recovery_comparison.png": {
+      "bytes": 168723,
+      "sha256": "0b8f375871e2988e6a03723ab586e7aa61e9ec05d00af1a7b92581640641b0ff"
+    },
+    "sis_local_poly/summary.csv": {
+      "bytes": 3599,
+      "sha256": "45866d98c34081d164b04f12ac937398bcf2a4be3fa3b2a6027ece0d5e80b1c4"
+    },
+    "sis_local_poly/verification.json": {
+      "bytes": 330,
+      "sha256": "8beb4a1e7525475078517516354980b564855cd3037177f79c4f0e6cfa32541e"
+    },
+    "sis_local_poly/window_cv.csv": {
+      "bytes": 16610,
+      "sha256": "69c4fba047e58e8583cdd6111f7ce8e9b70163d3461e746e8a4655471931d1a9"
+    },
+    "sis_local_poly/window_selection.png": {
+      "bytes": 135452,
+      "sha256": "957bf18e5a73bc7d36af3edb27e4f4a943c4e46aa274dbaa352314d2434de20d"
     }
   }
 }

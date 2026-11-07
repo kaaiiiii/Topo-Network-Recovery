@@ -183,3 +183,63 @@ This is a SIS adaptation of the model-based identification principle discussed i
 relevant NIMFA reconstruction reference. The initial partial pilot, which exposed
 an insufficient coordinate-descent tolerance, is retained in
 `.local_archive/results/sis_aware_pilot_initial/` and excluded from summaries and the repository.
+
+## Local polynomial preprocessing for SIS
+
+`scripts/sis_local_poly.py` estimates states and time derivatives with a degree-2
+Savitzky-Golay fit within each training trajectory. The centered derivative
+coefficients match equations (3)-(4) of
+[Becker et al. (2016)](https://www.ieeespmb.org/2016/papers/l04_03.pdf).
+The regression is
+
+`h * (estimated_derivative[i] + delta * smoothed_state[i])`
+
+on `h * beta * (1-smoothed_state[i]) * smoothed_state[j]`, for `j != i`.
+Weights are nonnegative, with zero diagonal and an L1 penalty. Training-fold
+RMS scaling keeps the zero intercept. This uses the same known rates and
+sampling step as the SIS-aware estimator.
+
+Five whole-trajectory folds jointly select the window and regularization:
+
+- Windows: 5, 9, 15 and 21 samples, plus the original raw-transition fit (window 0).
+- Fifteen penalty fractions per window, including zero penalty: 75 candidates.
+- Complete centered windows supply the training samples; each trajectory is processed separately.
+- Validation predicts the next raw observation from the current raw observation.
+- Final test RMSE uses the same raw one-step task and independent test trajectories as the earlier methods.
+
+The positive LARS path supplies candidate weights. OSQP refines candidates whose
+nonnegative KKT residual exceeds 1e-7; the zero-penalty candidate uses NNLS.
+Every candidate is checked against the same 1e-7 tolerance. Five added tests cover
+polynomial reproduction, the paper's derivative coefficients, trajectory separation,
+the original raw-transition option, and the QP refinement against an analytic solution.
+
+```powershell
+.\.venv\Scripts\python.exe -u scripts/sis_local_poly.py --pilot --jobs 1
+.\.venv\Scripts\python.exe -u scripts/sis_local_poly.py --jobs 4
+.\.venv\Scripts\python.exe scripts/sis_local_poly_report.py
+```
+
+Outputs are saved under `results/sis_local_poly/`: four-method AP comparisons,
+noisy precision-recall curves, window-validation scores, a fixed-network figure,
+and paired bootstrap differences across the ten graphs. The seed-5420 pilot
+is stored under `results/sis_local_poly_pilot/`.
+
+All 60 local-polynomial fits completed. All 30 noiseless conditions select window 0
+and achieve AP=1. With measurement-noise SD 0.02:
+
+| SIS spreading strength | Raw-state Lasso | SIS-aware | Local polynomial + SIS |
+| --- | ---: | ---: | ---: |
+| 0.8 | 0.038 | 0.039 | **0.390** |
+| 1.5 | 0.083 | 0.062 | **0.637** |
+| 3 | 0.144 | 0.160 | **0.710** |
+
+The comparison includes 240 fitted models, with independently checked AP, test RMSE,
+precision-recall areas and 6000 selected local-polynomial nodewise KKT conditions.
+
+Noisy test RMSE (same raw one-step prediction task):
+
+| β | Raw Lasso | SIS-aware | Local polynomial + SIS |
+| --- | ---: | ---: | ---: |
+| 0.8 | 0.026074 | 0.027519 | 0.027507 |
+| 1.5 | 0.025975 | 0.027430 | 0.027406 |
+| 3 | 0.025545 | 0.026903 | 0.026868 |

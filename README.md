@@ -4,7 +4,7 @@ ESE 5420 final project, Topic 7: recover a sparse directed network from observed
 node-state time series, and measure how observation length, noise and knowledge
 of the dynamics affect recovery.
 
-Three completed experiments use ten independently generated 100-node,
+Four completed experiments use ten independently generated 100-node,
 300-edge networks:
 
 | Experiment | Estimators | Completed fits | Results |
@@ -12,6 +12,7 @@ Three completed experiments use ten independently generated 100-node,
 | Noisy linear diffusion | Lasso and ridge | 180 | [Linear baseline](reference_results/baseline/) |
 | Nonlinear SIS dynamics | Raw-state Lasso and ridge | 120 | [SIS comparison](reference_results/sis/) |
 | Known SIS dynamics | Nonnegative sparse regression | 60 additional | [SIS-aware comparison](reference_results/sis_aware/) |
+| Local polynomial preprocessing | Smoothed-state and derivative regression | 60 additional | [Local polynomial comparison](reference_results/sis_local_poly/) |
 
 PNG figures and CSV tables can be viewed directly on GitHub.
 
@@ -28,19 +29,29 @@ PNG figures and CSV tables can be viewed directly on GitHub.
 - **Knowing the SIS equation helps in the noiseless setting.** The SIS-aware
   estimator achieves AP=1 in all 30 noiseless conditions. With measurement noise,
   it does not consistently outperform raw-state Lasso.
+- **Local polynomial preprocessing improves recovery with measurement noise.**
+  Window selection and derivative estimation substantially improve edge AP across all three spreading strengths.
 
 Mean AP across ten graphs, with measurement-noise SD 0.02:
 
-| SIS spreading strength | Raw-state Lasso | SIS-aware |
-| --- | ---: | ---: |
-| 0.8 | 0.038 | 0.039 |
-| 1.5 | 0.083 | 0.062 |
-| 3.0 | 0.144 | 0.160 |
+| SIS spreading strength | Raw-state Lasso | SIS-aware | Local polynomial + SIS |
+| --- | ---: | ---: | ---: |
+| 0.8 | 0.038 | 0.039 | **0.390** |
+| 1.5 | 0.083 | 0.062 | **0.637** |
+| 3 | 0.144 | 0.160 | **0.710** |
 
-At strength 3, the paired 95% interval on the AP gain is [-0.004, 0.033].
-These intervals resample graph/trajectory realizations.
+Local polynomial preprocessing jointly selects the smoothing window and L1 penalty
+using five trajectory folds. Paired 95% intervals on its AP gain over SIS-aware are:
+
+- β=0.8: +0.350 [+0.315, +0.381].
+- β=1.5: +0.574 [+0.557, +0.592].
+- β=3: +0.550 [+0.531, +0.573].
+
+These intervals resample ten paired graph/trajectory realizations.
 The SIS-aware estimator knows the dynamics and rates and imposes nonnegative
 weights. SIS states are mean-field infection probabilities.
+
+![Network recovery with measurement noise](reference_results/sis_local_poly/network_example_noisy.png)
 
 ## Reproduce
 
@@ -65,16 +76,20 @@ python scripts/sis_report.py
 # 3. Reuse those SIS observations for the model-aware estimator.
 python scripts/sis_aware.py --jobs 4
 python scripts/sis_aware_report.py
+
+# 4. Select local polynomial preprocessing within training trajectories.
+python scripts/sis_local_poly.py --jobs 4
+python scripts/sis_local_poly_report.py
 ```
 
 On macOS/Linux, activate with `source .venv/bin/activate`; the remaining commands
-are identical. Use `--jobs 1` to limit parallel CPU use. Fourteen unit tests cover
+are identical. Use `--jobs 1` to limit parallel CPU use. Nineteen unit tests cover
 simulation, edge direction, validation separation, solver equivalence and the
-SIS-aware regression algebra. Figure/table scripts also reconcile saved scores and
+SIS-aware regression algebra, local polynomial derivatives and QP refinement. Figure/table scripts also reconcile saved scores and
 solver optimality conditions.
 
 Optional pilot runs use seed 5420, excluded from final summaries: add `--pilot`
-to the fitting commands. Run the SIS pilot before the SIS-aware pilot.
+to the fitting commands. Run the SIS pilot before the SIS-aware and local polynomial pilots.
 
 **Output policy:** generated trajectories, fitted coefficients and runtime
 protocols go in the ignored `results/` directory. The repository includes

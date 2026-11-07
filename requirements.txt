@@ -5,3 +5,4 @@ networkx==3.6.1
 matplotlib==3.11.2
 joblib==1.6.0
 threadpoolctl==3.8.0
+osqp==1.1.3

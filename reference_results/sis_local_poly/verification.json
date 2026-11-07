@@ -1,0 +1,12 @@
+{
+  "compared_fits": 240,
+  "new_fits": 60,
+  "checked_AP": 240,
+  "checked_test_RMSE": 240,
+  "checked_PR_areas": 240,
+  "checked_nodewise_KKT": 6000,
+  "max_selected_KKT_residual": 5.989648072261735e-08,
+  "max_candidate_KKT_residual": 9.997793406774368e-08,
+  "solver_warnings": 0,
+  "polished_candidates": 1279357
+}

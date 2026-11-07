@@ -6,13 +6,15 @@ Curated snapshots of the completed experiments:
 - [SIS with raw-state regressions](sis/): 120 fits.
 - [SIS-aware comparison](sis_aware/): 60 additional fits, compared with the 120 SIS baselines.
 
+- [Local polynomial SIS recovery](sis_local_poly/): 60 additional fits with window and penalty selection.
+
 Each folder contains figures, aggregate and per-fit metric tables, the recorded
 protocol and a verification summary. PNG and CSV files can be inspected on GitHub.
 
 Raw trajectories, per-fit coefficient arrays, complete CV-search records and
 exploratory runs are generated under the ignored `results/` directory and are not
 part of these snapshots. Follow the [reproduction commands](../README.md#reproduce)
-to regenerate them. Run all three experiment stages in order before rebuilding
+to regenerate them. Run all four experiment stages in order before rebuilding
 the final comparison figures and tables.
 
 The protocols record experiment settings and source and input hashes.
