@@ -1,0 +1,16 @@
+{
+  "models": 120,
+  "directed_graph_checks": 10,
+  "matched_baseline_graphs": 10,
+  "reproduced_trajectory_arrays": 60,
+  "independent_AP_checks": 120,
+  "test_RMSE_checks": 120,
+  "PR_step_area_checks": 120,
+  "penalty_selection_checks": 120,
+  "selected_convergence_warnings": 0,
+  "candidate_convergence_warnings": 0,
+  "resolved_convergence_warnings": 0,
+  "solver_warnings": 0,
+  "independently_recomputed_selected_KKT_checks": 60,
+  "max_lasso_KKT_residual": 1.1920688638633686e-07
+}

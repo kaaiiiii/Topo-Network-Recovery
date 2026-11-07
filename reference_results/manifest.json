@@ -1,0 +1,134 @@
+{
+  "description": "Reference snapshots; regenerate raw runs under results/ using README commands.",
+  "raw_trajectories_included": false,
+  "files": {
+    "baseline/metrics.csv": {
+      "bytes": 35094,
+      "sha256": "1e34ddd55b915fd52898cf7b2ec6f70f0d0848650c4576158a823aaf94536c6d"
+    },
+    "baseline/network_example.png": {
+      "bytes": 296336,
+      "sha256": "f7da364f4b51209d257bd18bcb34bb399ded19c374b947a6da511d6db0328288"
+    },
+    "baseline/paired_AP_differences.csv": {
+      "bytes": 705,
+      "sha256": "f563b9106c90b85cd0ee8fb1ef5e97487cfcaf73c24ec21feb5c2b11f33959ba"
+    },
+    "baseline/precision_recall.png": {
+      "bytes": 220292,
+      "sha256": "c5f80caab1d04ca6daa2c43692534a89253d598c1e23bf2affcd54a366256639"
+    },
+    "baseline/protocol.json": {
+      "bytes": 1446,
+      "sha256": "8ef6c0296108c739a96e38936d724ebb73c6f496d76a421a749baacf8d214245"
+    },
+    "baseline/recovery_heatmap.png": {
+      "bytes": 158050,
+      "sha256": "8ac31af05ecfb51ad7f9c879fa3c36724c28a3da2908c612c6e126ac1f2177d4"
+    },
+    "baseline/summary.csv": {
+      "bytes": 1455,
+      "sha256": "c48dd23d8d15d2b25663366463e5ead98c67978be16b53a1369ed2c28209c8d5"
+    },
+    "baseline/verification.json": {
+      "bytes": 346,
+      "sha256": "98a92f215d768a7f961c7f50b84c2b2c62e4980e0e7505107082b0a971ab16e4"
+    },
+    "README.md": {
+      "bytes": 1241,
+      "sha256": "2946bcf9536f69e0fdc3f8454faa11f62501dcc401c9652ace28a152fea2b4c3"
+    },
+    "sis/dynamics_and_prediction.png": {
+      "bytes": 170333,
+      "sha256": "6be287985cc6bb04b7ba27415d3121d8eead7fbbd21bad0b5753acdf50aaa90c"
+    },
+    "sis/metrics.csv": {
+      "bytes": 32144,
+      "sha256": "97f2947300b343bdebf38657039f2736ac7653a5d8dd2347052e40494d9987ba"
+    },
+    "sis/network_example.png": {
+      "bytes": 428980,
+      "sha256": "bfe2001fc7c7695cef7650c95beb2214c94924777fd01a2b0b623160896eef65"
+    },
+    "sis/network_example_details.json": {
+      "bytes": 10017,
+      "sha256": "038b80cebafa87a6645871bb8df8005da21de1c87ff1944651603bb9619ba541"
+    },
+    "sis/network_example_noisy.png": {
+      "bytes": 442444,
+      "sha256": "21c3c932e08ccf39a6070474b6edb7b3c1d936f291cdbadee4157746a695fdf4"
+    },
+    "sis/paired_AP_differences.csv": {
+      "bytes": 496,
+      "sha256": "68d68f974bba2c04395d3ce2bd5bd307a7e765b635fa98f7dbafd224a2d0bff5"
+    },
+    "sis/paired_noise_effects.csv": {
+      "bytes": 516,
+      "sha256": "05888aeae3e9814e545c1f382f2dd22cc4e4410e8f31f07428c810d82c141f6d"
+    },
+    "sis/precision_recall.png": {
+      "bytes": 100107,
+      "sha256": "2c20caa585b887ef7ba690f88472da277e170bbd56e8432904cff4e8edcd6282"
+    },
+    "sis/protocol.json": {
+      "bytes": 2332,
+      "sha256": "0d156bd157d6d1b61cf4a4e1c5d659c0ffb8d7f6a85d87b28a691dc79ca2e9bb"
+    },
+    "sis/recovery_heatmap.png": {
+      "bytes": 116128,
+      "sha256": "14a32c65521c3feb3fde4abc538e44a5934e90276d16273a5d91a19c8597a51d"
+    },
+    "sis/summary.csv": {
+      "bytes": 4031,
+      "sha256": "108dd138edf8166bb966ea0ff0b9b564258901b707192a660e1148d0ecafd665"
+    },
+    "sis/verification.json": {
+      "bytes": 505,
+      "sha256": "e67038867844083954d8a048e6294936d552e59e726713f71d39df42dcaa45ca"
+    },
+    "sis_aware/metrics.csv": {
+      "bytes": 13568,
+      "sha256": "d9e573ba20bf7aa473d8fd28de0d3497ff833b8c58ccc186837acafd0aef91a3"
+    },
+    "sis_aware/network_example.png": {
+      "bytes": 548137,
+      "sha256": "d3294e8d832054fb0449086579cb7c92dc647325c7721b3e9fe87287a8dbcc20"
+    },
+    "sis_aware/network_example_details.json": {
+      "bytes": 11868,
+      "sha256": "2f553a15c460d3c1396fca11e464cae59f3aa917253fd663a5228f22a694050a"
+    },
+    "sis_aware/network_example_noisy.png": {
+      "bytes": 621519,
+      "sha256": "3161c1569b576ee280c2875628abf01cb748d0949add552fadefb6411a3f21a8"
+    },
+    "sis_aware/paired_differences.csv": {
+      "bytes": 2319,
+      "sha256": "f06b08423af8f22b6af9a7e819f92c819a5ba923511dfe2719b890889d349e0c"
+    },
+    "sis_aware/precision_recall.png": {
+      "bytes": 131183,
+      "sha256": "b312db6987a4ba0447109542b548c44f649e18c2fc08d7dab3821e8c3241f6b6"
+    },
+    "sis_aware/protocol.json": {
+      "bytes": 7999,
+      "sha256": "add9c32b92d3548ab0fd2bbacfbc03d8201e9f749bab51f8fea0c8b05ac8a917"
+    },
+    "sis_aware/recovery_comparison.png": {
+      "bytes": 156524,
+      "sha256": "ca1176842c99278d63c13c540ff78da78973d7f3efba97d1727a60e96dce4164"
+    },
+    "sis_aware/summary.csv": {
+      "bytes": 2851,
+      "sha256": "58b88f0931d846a15e11438e5da05c071c10d565480b6ae878fa765db8527897"
+    },
+    "sis_aware/verification.json": {
+      "bytes": 433,
+      "sha256": "a36efdac2581d53573dfd78ee78f776636790b71a8f6beb056c364ec88864b3d"
+    },
+    "sis_aware/editorial_revision.json": {
+      "bytes": 392,
+      "sha256": "584ba99b06455c9e010b11b333ed4eb5b96665ff15f6bb8fcd6c4e2e10b12062"
+    }
+  }
+}

@@ -1,0 +1,185 @@
+# Detailed experiment notes
+
+Paths below refer to generated local output under `results/`. Published figures,
+and summary tables are available in [reference_results](../reference_results/).
+The complete reproduction order and environment setup are in the [README](../README.md).
+Exploratory intermediate runs are retained only in the ignored local archive;
+they are not included in the repository or required to reproduce the final runs.
+
+This implements the topic guide's first experiment: simulate noisy linear dynamics
+on a known sparse directed graph, regress each node's next state on every current
+node state with Lasso, and evaluate directed edges with precision-recall curves.
+Ridge is the reference comparison.
+
+Figures and tables are in **results/baseline/**.
+
+At measurement-noise ratio 0.25, Lasso's mean edge-recovery AP rises from 0.261
+at 100 transitions to 0.752 at 300 and 0.917 at 1000 (ten independent graph draws).
+At 1000 transitions, ridge has higher AP (0.942), although Lasso predicts the next
+observed state better (RMSE 1.070 versus 1.095). Prediction and structure recovery
+therefore produce different rankings in this experiment.
+
+All 180 AP values, independent-trajectory RMSE values and penalty selections were
+reconciled. There were 52 convergence warnings among nonselected CV candidates;
+the selected penalties' CV fits in affected searches were rerun and converged,
+and selected full-training fits stayed below the iteration limit.
+
+## Run
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -u scripts/network_recovery.py --pilot
+.\.venv\Scripts\python.exe -u scripts/network_recovery.py --jobs 4
+.\.venv\Scripts\python.exe scripts/make_report.py
+```
+
+The pilot uses seed 5420 and a single condition. The full run uses ten distinct
+seeds (1001 through 1010), with no changes to model settings after the pilot.
+Completed fits resume only when the saved protocol matches the current script.
+
+## Fixed first experiment
+
+- 100 nodes, 300 directed off-diagonal edges; NetworkX directed G(n,m).
+- Positive edge weights U(0.2,1); A = 0.3 I + 0.6 W / spectral_radius(W).
+- A[target,source] describes source -> target; spectral radius is 0.9.
+- Process innovations are N(0,I); initialize from the exact stationary covariance.
+- 100, 300, and 1000 observed transitions.
+- Independent measurement-noise SD ratios 0, 0.25, and 0.75 relative to each
+  node's population stationary SD. This measurement noise is added to the process innovations. Clean trajectories and noise draws are paired across conditions.
+- Independent 1000-transition evaluation trajectories from the same graph.
+- Five expanding time splits, approximately half the sequence in the first
+  training block, and a one-transition gap to avoid overlapping raw timestamps.
+- Fold-local StandardScaler and seven penalties per method. A common alpha is
+  chosen by mean prediction MSE across separate node regressions. The true graph
+  never enters fitting or penalty selection.
+- Rank unscaled absolute coefficients; exclude diagonal entries. AP is computed
+  per graph, with mean and sample SD across graphs. Paired bootstrap intervals
+  resample the ten graph/trajectory draws.
+
+## Outputs
+
+- `protocol.json`: frozen parameters, versions, and code hash.
+- `metrics.csv`, `summary.csv`, `paired_AP_differences.csv`: numeric results.
+- `seed_*/system.npz`: exact systems, trajectories, and measurement-noise draws.
+- Per-fit JSON/NPZ: every candidate CV score, chosen penalty, coefficients, and PR curve.
+- `verification.json`: independent AP, RMSE, edge-direction, and selection checks.
+- `recovery_heatmap.png`, `precision_recall.png`, `network_example.png`: exportable figures.
+
+The network illustration uses a fixed seed and condition, and displays the first
+25 nodes. The display selects up to 300 positive-score edges on the full graph.
+AP evaluates the full off-diagonal coefficient ranking.
+
+Method references are listed in the README.
+
+## Nonlinear extension: SIS
+
+The guide's “Go further” experiment now uses a forward-Euler SIS mean-field map:
+
+`p_next = p + 0.05 * (beta * (1-p) * (B @ p) - p)`.
+
+Here multiplication by `(1-p)` is elementwise. States are infection probabilities.
+The model is a discrete numerical version of the standard individual-based
+mean-field equation. See the
+[EoN equation documentation](https://epidemicsonnetworks.readthedocs.io/en/latest/functions/EoN.SIS_individual_based.html)
+and [Nowzari, Preciado and Pappas](https://arxiv.org/abs/1505.00768).
+
+- Reuse the same ten weighted directed graphs, with spectral radius of B equal to one.
+- Spreading strength beta: 0.8, 1.5, 3.0; recovery rate: 1.
+- 20 training and 10 independent test trajectories, 50 transitions each.
+- Independent initial probabilities U(0.02,0.2); all nodes observed.
+- Measurement-noise SD 0 or 0.02 in absolute probability units; no process noise.
+- Five-fold CV over whole training trajectories; no transitions across restarts.
+- Fold-local predictor and response scaling. Fifteen penalties per method:
+  Lasso from 1e-6 to 1, ridge from 1e-12 to 1e4. Lasso uses the standard
+  [LARS path solver](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LassoLars.html);
+  ridge uses SVD. Every Lasso candidate passes an independent KKT optimality
+  check with maximum residual at most 1e-6 in standardized units.
+- Rank unscaled absolute off-diagonal coefficients. Report AP mean and graph SD,
+  paired graph-bootstrap intervals, and test RMSE relative to persistence.
+
+```powershell
+.\.venv\Scripts\python.exe -u scripts/sis_recovery.py --pilot --jobs 1
+.\.venv\Scripts\python.exe -u scripts/sis_recovery.py --jobs 4
+.\.venv\Scripts\python.exe scripts/sis_report.py
+```
+
+Outputs live in `results/sis/`. The pilot uses
+seed 5420 and all six conditions; it is excluded from final summaries.
+
+The completed 120-fit experiment gives the following Lasso edge AP values
+(mean ± sample SD across ten graphs):
+
+| Spreading strength beta | No measurement noise | Measurement-noise SD 0.02 |
+| --- | --- | --- |
+| 0.8 | 0.9997 ± 0.0007 | 0.038 ± 0.003 |
+| 1.5 | 0.970 ± 0.016 | 0.083 ± 0.015 |
+| 3.0 | 0.438 ± 0.095 | 0.144 ± 0.024 |
+
+Thus a nonlinear state map does not automatically prevent linear recovery.
+In this setup, recovery deteriorates at stronger spreading and with measurement
+noise. At beta 3 without noise, Lasso's RMSE is only 0.153 times persistence RMSE,
+despite edge AP of 0.438: successful prediction does not guarantee network recovery.
+The outputs include ridge, PR curves, paired method comparisons and confidence
+intervals. `paired_noise_effects.csv` holds the paired measurement-noise contrasts.
+All 120 AP/RMSE/selection records and 60 selected Lasso optimality conditions were
+independently checked; no final-run solver warnings occurred. Maximum candidate
+KKT residual was 1.20e-7, below the 1e-6 tolerance. Eleven tests cover the linear
+and SIS baselines; the later SIS-aware extension brings the total to fourteen.
+
+The initial, incomplete run is retained locally in `.local_archive/results/sis_initial_grid/` with its
+source and protocol. Its ridge CV optimum reached the grid's lower boundary,
+and cold-start Lasso fits left some candidates unconverged. A warm-start revision
+was also slow on strongly correlated noisy data and is retained in
+`.local_archive/results/sis_warmstart_partial/`. The final run expands the grid and solves the
+same Lasso objective via LARS, checked against coordinate descent in the tests;
+its summaries use the completed LARS runs.
+
+SIS uses independent transient trajectories, noise in probability units and
+trajectory-level validation. Increasing beta changes coupling and the observed
+trajectory distribution.
+
+## SIS-aware network recovery
+
+`scripts/sis_aware.py` adds a third estimator using the known SIS functional form,
+recovery rate, spreading rate and sampling step. It regresses
+`p_next[i] - (1-h*delta)*p[i]` on `h*beta*(1-p[i])*p[j]` for `j != i`,
+with nonnegative weights, zero diagonal, no intercept and an L1 penalty.
+Training-fold RMS scaling preserves the physical zero intercept. A common fraction
+of each node/fold's alpha-max is selected using the same five trajectory folds.
+Fifteen candidates include zero penalty (NNLS) and fourteen logarithmic fractions
+from 1e-8 to 1. All candidates pass nonnegative KKT checks; coordinate descent
+refines positive LARS solutions when necessary.
+
+The estimator reads the existing SIS trajectories.
+The observed arrays, test trajectories and input hashes are paired with the
+original ridge/Lasso comparison. The estimator combines known dynamics with
+nonnegative edge weights and fits the observed states directly.
+
+```powershell
+.\.venv\Scripts\python.exe -u scripts/sis_aware.py --pilot --jobs 1
+.\.venv\Scripts\python.exe -u scripts/sis_aware.py --jobs 4
+.\.venv\Scripts\python.exe scripts/sis_aware_report.py
+```
+
+Open `results/sis_aware/` for the three-method comparison, paired AP
+and test-RMSE intervals, and four-panel true/recovered network illustrations.
+
+All 60 new fits completed and passed independent checks. Without measurement
+noise, all 30 fits achieve AP=1; at beta 3 the AP gain over raw Lasso is 0.562
+with paired 95% interval [0.508, 0.619]. With noise SD 0.02, SIS-aware AP is
+0.039, 0.062 and 0.160 across beta 0.8, 1.5 and 3, compared with raw Lasso's
+0.038, 0.083 and 0.144. The beta-3 gain interval [-0.004, 0.033] includes zero,
+and noisy test RMSE is worse than raw Lasso in every condition. Known dynamics
+solve the noiseless model mismatch here; this first estimator does not reliably
+resolve measurement error. Fourteen tests pass; 6000 selected node solutions
+pass independently recomputed KKT checks. Twelve intermediate solver warnings
+were recorded, with every final candidate checked against the 1e-7 KKT tolerance.
+
+This is a SIS adaptation of the model-based identification principle discussed in
+[Becker et al. (2016)](https://www.ieeespmb.org/2016/papers/l04_03.pdf), with
+[Prasse and Van Mieghem (2018)](https://arxiv.org/abs/1811.06741) as a directly
+relevant NIMFA reconstruction reference. The initial partial pilot, which exposed
+an insufficient coordinate-descent tolerance, is retained in
+`.local_archive/results/sis_aware_pilot_initial/` and excluded from summaries and the repository.

@@ -1,0 +1,6 @@
+{
+  "description": "Prose cleanup; computation AST verified unchanged after excluding module docstring and literature_scope text.",
+  "original_script_sha256": "edaaef65b897fb5418404b5e15e2dd7528c85bfd72673c6c1f1c5f3d1b29fd7f",
+  "script_sha256": "c5a772b2a62a2a88bbccb36ea84789326a62408ec0ee8c21894bb9ca997fceb5",
+  "original_code_commit": "25471a1defad54169ec4f8e9d3f8d34af836be81"
+}

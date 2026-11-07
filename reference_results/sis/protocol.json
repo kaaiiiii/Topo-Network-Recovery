@@ -1,0 +1,86 @@
+{
+  "config": {
+    "nodes": 100,
+    "edges": 300,
+    "seeds": [
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008,
+      1009,
+      1010
+    ],
+    "beta": [
+      0.8,
+      1.5,
+      3.0
+    ],
+    "delta": 1.0,
+    "dt": 0.05,
+    "steps": 50,
+    "training_episodes": 20,
+    "test_episodes": 10,
+    "initial_low": 0.02,
+    "initial_high": 0.2,
+    "noise_sd": [
+      0.0,
+      0.02
+    ],
+    "cv_splits": 5,
+    "cv_seed": 5420,
+    "lasso_alphas": [
+      1e-06,
+      2.6826957952797274e-06,
+      7.196856730011514e-06,
+      1.9306977288832496e-05,
+      5.1794746792312125e-05,
+      0.00013894954943731373,
+      0.0003727593720314938,
+      0.001,
+      0.0026826957952797246,
+      0.007196856730011514,
+      0.019306977288832496,
+      0.05179474679231213,
+      0.1389495494373136,
+      0.3727593720314938,
+      1.0
+    ],
+    "ridge_alphas": [
+      1e-12,
+      1.389495494373136e-11,
+      1.9306977288832457e-10,
+      2.6826957952797275e-09,
+      3.7275937203149377e-08,
+      5.179474679231202e-07,
+      7.196856730011514e-06,
+      0.0001,
+      0.001389495494373136,
+      0.019306977288832457,
+      0.26826957952797165,
+      3.727593720314938,
+      51.79474679231202,
+      719.6856730011499,
+      10000.0
+    ],
+    "max_iter": 100000,
+    "tol": 1e-05,
+    "lars_max_iter": 5000,
+    "kkt_tolerance": 1e-06,
+    "lasso_solver": "LassoLars path with independently checked KKT residual"
+  },
+  "pilot": false,
+  "sklearn": "1.9.1",
+  "sources": [
+    "https://epidemicsonnetworks.readthedocs.io/en/latest/functions/EoN.SIS_individual_based.html",
+    "https://arxiv.org/abs/1505.00768"
+  ],
+  "revision": "Expanded boundary-limited ridge grid. Standard LARS solves the same Lasso objective; all candidates pass KKT checks. Earlier incomplete coordinate-descent runs retained for audit.",
+  "script_sha256": "7fa6e96f78067315fcfaa7e2f790788d795b4e277150b7a4b4723a958593045a",
+  "graph_script_sha256": "682bb38cf201a583bcec3cc45759570d4eb3caffa24fb18676714a30a0e3584f",
+  "model": "Forward-Euler SIS mean field, continuous probability states, observation noise only",
+  "validation": "Five folds of whole independent training episodes; separate test episodes"
+}

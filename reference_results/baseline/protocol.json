@@ -1,0 +1,65 @@
+{
+  "configuration": {
+    "nodes": 100,
+    "edges": 300,
+    "self_memory": 0.3,
+    "coupling_radius": 0.6,
+    "lengths": [
+      100,
+      300,
+      1000
+    ],
+    "noise_ratios": [
+      0.0,
+      0.25,
+      0.75
+    ],
+    "test_steps": 1000,
+    "seeds": [
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008,
+      1009,
+      1010
+    ],
+    "cv_splits": 5,
+    "cv_gap": 1,
+    "lasso_alphas": [
+      0.001,
+      0.0031622776601683794,
+      0.01,
+      0.03162277660168379,
+      0.1,
+      0.31622776601683794,
+      1.0
+    ],
+    "ridge_alphas": [
+      0.1,
+      0.6812920690579614,
+      4.641588833612779,
+      31.622776601683793,
+      215.44346900318845,
+      1467.7992676220706,
+      10000.0
+    ],
+    "lasso_max_iter": 10000,
+    "lasso_tol": 0.0001
+  },
+  "pilot": false,
+  "code_sha256": "682bb38cf201a583bcec3cc45759570d4eb3caffa24fb18676714a30a0e3584f",
+  "versions": {
+    "python": "3.13.13",
+    "numpy": "2.4.6",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1",
+    "networkx": "3.6.1"
+  },
+  "conventions": "A[target,source]; diagonal excluded; common alpha across separate nodewise regressions",
+  "noise": "process covariance I; measurement SD = ratio * population stationary SD per node",
+  "validation": "5 expanding time splits with one-transition gap; penalty chosen by prediction MSE only"
+}

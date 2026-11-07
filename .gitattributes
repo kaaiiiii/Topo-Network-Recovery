@@ -1,0 +1,6 @@
+# Experiment protocols hash the Python source bytes: preserve LF on Windows too.
+* text=auto eol=lf
+*.png binary
+*.npz binary
+# Preserve published provenance and CSV bytes exactly as recorded.
+reference_results/** -text

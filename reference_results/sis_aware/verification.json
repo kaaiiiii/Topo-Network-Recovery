@@ -1,0 +1,13 @@
+{
+  "total_compared_fits": 180,
+  "new_fits": 60,
+  "source_hash_checks": 42,
+  "independent_AP_checks": 180,
+  "independent_test_RMSE_checks": 180,
+  "PR_area_checks": 180,
+  "independently_checked_nodewise_KKT_conditions": 6000,
+  "max_selected_KKT_residual": 7.315955600703528e-08,
+  "max_all_candidate_KKT_residual": 9.981722912414878e-08,
+  "solver_warnings": 12,
+  "coordinate_descent_polished_candidates": 167254
+}

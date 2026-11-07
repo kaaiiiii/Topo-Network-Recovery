@@ -1,0 +1,28 @@
+# Local environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Reproducible runtime output; curated snapshots live in reference_results/
+/results/
+/.local_archive/
+/artifacts/
+/tmp/
+*.log
+
+# Machine settings and credentials
+.env
+.env.*
+!.env.example
+.aws/
+.codex/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,12 @@
+{
+  "independent_graphs": 10,
+  "fitted_models": 180,
+  "directed_support_checks": 10,
+  "independent_AP_checks": 180,
+  "test_RMSE_checks": 180,
+  "penalty_selection_checks": 180,
+  "convergence_warnings": 52,
+  "selected_CV_fits_rechecked_after_warnings": 115,
+  "selected_CV_warning_count": 0,
+  "selected_lasso_iteration_caps": 0
+}
