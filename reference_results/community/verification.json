@@ -1,0 +1,11 @@
+{
+  "community_fits": 80,
+  "random_reference_fits": 80,
+  "matched_initial_and_noise_arrays": 40,
+  "reproduced_trajectories": 300,
+  "checked_community_AP": 80,
+  "checked_community_test_RMSE": 80,
+  "checked_edge_stratum_scores": 320,
+  "checked_nodewise_KKT": 4000,
+  "max_selected_KKT_residual": 9.444033317136322e-08
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "seed": 1001,
+    "noise_sd": 0.0,
+    "method": "lasso",
+    "recovered": 160,
+    "missed": 140,
+    "false": 140
+  },
+  {
+    "seed": 1001,
+    "noise_sd": 0.0,
+    "method": "sis_aware",
+    "recovered": 300,
+    "missed": 0,
+    "false": 0
+  },
+  {
+    "seed": 1001,
+    "noise_sd": 0.0,
+    "method": "local_poly",
+    "recovered": 300,
+    "missed": 0,
+    "false": 0
+  },
+  {
+    "seed": 1001,
+    "noise_sd": 0.02,
+    "method": "lasso",
+    "recovered": 77,
+    "missed": 223,
+    "false": 223
+  },
+  {
+    "seed": 1001,
+    "noise_sd": 0.02,
+    "method": "sis_aware",
+    "recovered": 70,
+    "missed": 230,
+    "false": 230
+  },
+  {
+    "seed": 1001,
+    "noise_sd": 0.02,
+    "method": "local_poly",
+    "recovered": 206,
+    "missed": 94,
+    "false": 94
+  }
+]

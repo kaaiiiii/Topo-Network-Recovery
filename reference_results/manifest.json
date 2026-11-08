@@ -173,6 +173,66 @@
     "sis_local_poly/window_selection.png": {
       "bytes": 135452,
       "sha256": "957bf18e5a73bc7d36af3edb27e4f4a943c4e46aa274dbaa352314d2434de20d"
+    },
+    "community/bridge_recovery.png": {
+      "bytes": 138217,
+      "sha256": "0a22fac996d72654b46bddfc3a02b34611c2daad86ca86a7b7cee78c745afc15"
+    },
+    "community/comparison_metrics.csv": {
+      "bytes": 45929,
+      "sha256": "b950338629e5a6131972c07c377738a9d226421a4b69568a27ce8ba4c8b0d73f"
+    },
+    "community/cv_trials.csv": {
+      "bytes": 406064,
+      "sha256": "7cc41256735b2fdddc5407ffb0cdc13c492c8c7bacd7733adf1b1825b80dd7fe"
+    },
+    "community/graph_diagnostics.csv": {
+      "bytes": 599,
+      "sha256": "b8af516d886697c01610aa6e9b2c3f5e57a9d313bc549e988c36a1a93bcb949a"
+    },
+    "community/metrics.csv": {
+      "bytes": 24194,
+      "sha256": "8dc0462e6ce4d592965c9252f4475143b7cb06d84eed46168fa1a9db118a0fc0"
+    },
+    "community/network_example.png": {
+      "bytes": 2216534,
+      "sha256": "2afaa373bd69fa2e9ba6c47af47b8b47bbeaadadeeb9abcc957717aa1adc3923"
+    },
+    "community/network_example_details.json": {
+      "bytes": 834,
+      "sha256": "5c782e5ca0e946b1e67e3a339d00f340e4fcf8c7ff4b620626e699f7404970d4"
+    },
+    "community/network_example_noisy.png": {
+      "bytes": 2877018,
+      "sha256": "07eddaef9221f4dd06333dab2404b1b600c2140ad154fab29a9ece29f5207597"
+    },
+    "community/paired_differences.csv": {
+      "bytes": 3916,
+      "sha256": "547fc99247eaf025a893fd2d9ae2a61176e2bce822c8e9ceaefe8e6ebd35d1b2"
+    },
+    "community/protocol.json": {
+      "bytes": 5002,
+      "sha256": "6ff1aa93506940503cbbb018cfb0802696b67465cc23306d950f77cc0e5ceef9"
+    },
+    "community/report_protocol.json": {
+      "bytes": 390,
+      "sha256": "08175e69200e187bc33a1cc4adffb0ad365c6a904a4440ec7671090607bc9ef2"
+    },
+    "community/selected_windows.csv": {
+      "bytes": 438,
+      "sha256": "4a7038c344169279d7ebc4a5fffd643a1b3de9d8c4a18bf9370e09a2b24d1cd5"
+    },
+    "community/summary.csv": {
+      "bytes": 7073,
+      "sha256": "e5e6eb8c8b844800fdbb45dca067107a6f662cd7aea8d339e634aa22a7c573c7"
+    },
+    "community/topology_comparison.png": {
+      "bytes": 124778,
+      "sha256": "c7afa8f7beb89cc841768d2f19076d11498f7457777b4b4a047d46a947a4a932"
+    },
+    "community/verification.json": {
+      "bytes": 334,
+      "sha256": "041d0ddaccd0a66d93ad9067ac66bc4386520f0b7068bb58d373ac93a62aca1f"
     }
   }
 }

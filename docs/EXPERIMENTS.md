@@ -243,3 +243,59 @@ Noisy test RMSE (same raw one-step prediction task):
 | 0.8 | 0.026074 | 0.027519 | 0.027507 |
 | 1.5 | 0.025975 | 0.027430 | 0.027406 |
 | 3 | 0.025545 | 0.026903 | 0.026868 |
+
+## Four-community SIS networks
+
+`scripts/community_recovery.py` compares the existing four estimators on a directed
+fixed-count planted partition: 100 nodes in four groups of 25, 60 internal edges
+per group, and 60 edges between groups. Both the community and original random
+networks have 300 edges. Edge weights are sampled uniformly from [0.2, 1] and
+normalized to spectral radius one. The community labels are used for evaluation
+and plotting; the estimators fit all off-diagonal candidate edges.
+
+The experiment uses beta=3 and measurement-noise SD 0 or 0.02, with ten network
+seeds (1001-1010). It keeps the original SIS sampling step, recovery rate,
+20 training trajectories, 10 independent test trajectories, five whole-trajectory
+CV folds, and each method's existing parameter grid. Initial states and noise
+draws are identical to the random-network experiment for each seed.
+
+Overall edge AP measures recovery. Within-community and bridge recall use the
+same global budget of the top 300 positive absolute edge scores. Separate AP
+scores are also saved for each edge type; their positive fractions are 240/2400
+and 60/7500, respectively. Mean scores and paired differences use 5000 bootstrap
+resamples of the ten network seeds (bootstrap seed 85420).
+
+```powershell
+.\.venv\Scripts\python.exe -u scripts/community_recovery.py --pilot --jobs 1
+.\.venv\Scripts\python.exe scripts/community_report.py --pilot
+.\.venv\Scripts\python.exe -u scripts/community_recovery.py --jobs 4
+.\.venv\Scripts\python.exe scripts/community_report.py
+```
+
+`results/community/` contains topology comparisons, within-community versus bridge
+recovery, and fixed-seed network diagrams showing all 100 nodes. The report checks
+the source hashes, shared initial states and noise draws, simulated trajectories,
+edge scores, held-out prediction errors, and selected nonnegative solutions.
+
+All 80 community fits completed. The 80 AP scores, 80 test RMSE values, 320
+edge-stratum scores, and 4000 selected nodewise KKT conditions passed independent
+checks. The maximum selected KKT residual was 9.44e-8 (tolerance 1e-7).
+
+With measurement-noise SD 0.02:
+
+| Method | Edge AP (95% bootstrap interval) | Internal recall at 300 | Bridge recall at 300 | Test RMSE |
+| --- | ---: | ---: | ---: | ---: |
+| Ridge | 0.108 [0.098, 0.119] | 0.152 | 0.093 | 0.028548 |
+| Raw Lasso | 0.189 [0.173, 0.204] | 0.290 | 0.197 | 0.025449 |
+| SIS-aware | 0.186 [0.171, 0.199] | 0.285 | 0.255 | 0.026893 |
+| Local polynomial + SIS | **0.773 [0.755, 0.794]** | **0.734** | **0.667** | 0.026854 |
+
+For local polynomial + SIS, community-network AP exceeds random-network AP by
+0.062, with paired 95% interval [0.034, 0.088]. Its bridge recall is 0.0675 below
+internal recall, with paired interval [-0.0938, -0.0392] for bridge minus internal.
+Its AP gain over raw Lasso is 0.584 [0.566, 0.603]. Raw Lasso has the lowest noisy
+one-step test RMSE. Without measurement noise, both SIS-aware estimators recover
+all true edges at the 300-edge budget on all ten graphs, with AP=1.
+
+Published figures, per-run metrics, all CV candidate scores, paired intervals,
+and verification records are in `reference_results/community/`.

@@ -1,0 +1,190 @@
+{
+  "config": {
+    "nodes": 100,
+    "groups": 4,
+    "group_size": 25,
+    "internal_edges_per_group": 60,
+    "bridge_edges": 60,
+    "edges": 300,
+    "beta": 3.0,
+    "noise_sd": [
+      0.0,
+      0.02
+    ],
+    "seeds": [
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008,
+      1009,
+      1010
+    ],
+    "methods": [
+      "ridge",
+      "lasso",
+      "sis_aware",
+      "local_poly"
+    ],
+    "weights": "Uniform(0.2,1), then normalize spectral radius to one",
+    "topology": "Fixed-count planted partition: 60 directed edges inside each block and 60 across blocks",
+    "graph_seed_stream": 910,
+    "weight_seed_stream": 10,
+    "state_and_noise_streams": "Same as original SIS: seed streams 710 and 720",
+    "selection_budget": 300
+  },
+  "sis_config": {
+    "nodes": 100,
+    "edges": 300,
+    "seeds": [
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008,
+      1009,
+      1010
+    ],
+    "beta": [
+      0.8,
+      1.5,
+      3.0
+    ],
+    "delta": 1.0,
+    "dt": 0.05,
+    "steps": 50,
+    "training_episodes": 20,
+    "test_episodes": 10,
+    "initial_low": 0.02,
+    "initial_high": 0.2,
+    "noise_sd": [
+      0.0,
+      0.02
+    ],
+    "cv_splits": 5,
+    "cv_seed": 5420,
+    "lasso_alphas": [
+      1e-06,
+      2.6826957952797274e-06,
+      7.196856730011514e-06,
+      1.9306977288832496e-05,
+      5.1794746792312125e-05,
+      0.00013894954943731373,
+      0.0003727593720314938,
+      0.001,
+      0.0026826957952797246,
+      0.007196856730011514,
+      0.019306977288832496,
+      0.05179474679231213,
+      0.1389495494373136,
+      0.3727593720314938,
+      1.0
+    ],
+    "ridge_alphas": [
+      1e-12,
+      1.389495494373136e-11,
+      1.9306977288832457e-10,
+      2.6826957952797275e-09,
+      3.7275937203149377e-08,
+      5.179474679231202e-07,
+      7.196856730011514e-06,
+      0.0001,
+      0.001389495494373136,
+      0.019306977288832457,
+      0.26826957952797165,
+      3.727593720314938,
+      51.79474679231202,
+      719.6856730011499,
+      10000.0
+    ],
+    "max_iter": 100000,
+    "tol": 1e-05,
+    "lars_max_iter": 5000,
+    "kkt_tolerance": 1e-06,
+    "lasso_solver": "LassoLars path with independently checked KKT residual"
+  },
+  "aware_config": {
+    "fractions": [
+      0.0,
+      1e-08,
+      4.124626382901348e-08,
+      1.7012542798525891e-07,
+      7.017038286703837e-07,
+      2.894266124716752e-06,
+      1.1937766417144358e-05,
+      4.9238826317067415e-05,
+      0.0002030917620904739,
+      0.0008376776400682924,
+      0.003455107294592218,
+      0.014251026703029992,
+      0.05878016072274924,
+      0.24244620170823308,
+      1.0
+    ],
+    "kkt_tolerance": 1e-07,
+    "lars_max_iter": 5000,
+    "polish_max_iter": 100000,
+    "polish_tol": 1e-12,
+    "known_rates": true,
+    "center": false,
+    "intercept": false,
+    "smoothing": false,
+    "scaling": "Training-fold RMS of each feature and target; no centering",
+    "penalty": "Common fraction of each node/fold alpha_max; 15 candidates including NNLS"
+  },
+  "local_poly_config": {
+    "windows": [
+      0,
+      5,
+      9,
+      15,
+      21
+    ],
+    "degree": 2,
+    "fractions": [
+      0.0,
+      1e-08,
+      4.124626382901348e-08,
+      1.7012542798525891e-07,
+      7.017038286703837e-07,
+      2.894266124716752e-06,
+      1.1937766417144358e-05,
+      4.9238826317067415e-05,
+      0.0002030917620904739,
+      0.0008376776400682924,
+      0.003455107294592218,
+      0.014251026703029992,
+      0.05878016072274924,
+      0.24244620170823308,
+      1.0
+    ],
+    "validation": "Five whole-trajectory folds; raw one-step prediction MSE",
+    "boundaries": "Use centered complete windows within each training trajectory",
+    "window_zero": "Original SIS-aware fit on raw transitions",
+    "derivative": "Savitzky-Golay first derivative, equivalent to Becker eqs. 3-4 at interior points",
+    "state": "Savitzky-Golay degree-2 state estimate using the same window",
+    "solver_fallback": "OSQP, eps_abs=eps_rel=1e-10, max_iter=200000, polishing=True",
+    "numerical_zero": 1e-09,
+    "reference": "https://www.ieeespmb.org/2016/papers/l04_03.pdf"
+  },
+  "pilot": false,
+  "versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1",
+    "osqp": "1.1.3"
+  },
+  "script_sha256": {
+    "community_recovery.py": "23dd3729645b3d36d412d582594fbc76797624a607171029d1e8de3e599d244f",
+    "sis_recovery.py": "7fa6e96f78067315fcfaa7e2f790788d795b4e277150b7a4b4723a958593045a",
+    "sis_aware.py": "c5a772b2a62a2a88bbccb36ea84789326a62408ec0ee8c21894bb9ca997fceb5",
+    "sis_local_poly.py": "248af2ccccc0b8ed04d5b1061118d4ebb30d241edeae4d25772b30cd42c86695",
+    "network_recovery.py": "682bb38cf201a583bcec3cc45759570d4eb3caffa24fb18676714a30a0e3584f"
+  }
+}

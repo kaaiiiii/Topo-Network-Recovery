@@ -1,0 +1,8 @@
+{
+  "bootstrap_seed": 85420,
+  "bootstrap_resamples": 5000,
+  "bootstrap_unit": "Seed-paired networks; percentile 95% intervals for means and mean differences",
+  "edge_ranking": "Top 300 positive absolute off-diagonal scores, shared globally across edge strata",
+  "network_example_seed": 1001,
+  "report_sha256": "92a3e99212020ab8b44f6fa76e652eb82a44e513c017a42f5639d1386064d8ce"
+}
