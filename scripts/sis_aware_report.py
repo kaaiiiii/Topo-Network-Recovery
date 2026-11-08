@@ -1,4 +1,4 @@
-"""Independent checks and comparison of SIS-aware and raw-state regressions."""
+"""Independent checks and comparison of Model-based Lasso and raw-state regressions."""
 import csv
 import hashlib
 import json
@@ -17,7 +17,7 @@ from make_report import independent_ap
 OUT=ROOT/'results/sis_aware'
 SOURCE=ROOT/'results/sis'
 METHODS=['ridge','lasso','sis_aware']
-LABELS={'ridge':'Ridge','lasso':'Raw-state Lasso','sis_aware':'SIS-aware'}
+LABELS={'ridge':'Ridge','lasso':'Raw-state Lasso','sis_aware':'Model-based Lasso'}
 COLORS={'ridge':'#8d99a7','lasso':'#b86829','sis_aware':'#107f83'}
 
 
@@ -154,7 +154,7 @@ def plots(rows,summary):
             if j==0: ax.set_ylabel('Precision')
     fig.legend(handles=[Line2D([],[],color=COLORS[m],label=LABELS[m]) for m in METHODS],
                loc='outside lower center',ncol=3,frameon=False)
-    fig.suptitle('Precision–recall | same observations and held-out trajectories')
+    fig.suptitle('SIS dynamics | precision–recall on paired observations')
     fig.savefig(OUT/'precision_recall.png',dpi=180); plt.close(fig)
 
 

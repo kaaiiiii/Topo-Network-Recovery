@@ -126,7 +126,7 @@ intervals. `paired_noise_effects.csv` holds the paired measurement-noise contras
 All 120 AP/RMSE/selection records and 60 selected Lasso optimality conditions were
 independently checked; no final-run solver warnings occurred. Maximum candidate
 KKT residual was 1.20e-7, below the 1e-6 tolerance. Eleven tests cover the linear
-and SIS baselines; the later SIS-aware extension brings the total to fourteen.
+and SIS baselines; the later Model-based Lasso extension brings the total to fourteen.
 
 The initial, incomplete run is retained locally in `.local_archive/results/sis_initial_grid/` with its
 source and protocol. Its ridge CV optimum reached the grid's lower boundary,
@@ -140,7 +140,7 @@ SIS uses independent transient trajectories, noise in probability units and
 trajectory-level validation. Increasing beta changes coupling and the observed
 trajectory distribution.
 
-## SIS-aware network recovery
+## Model-based Lasso network recovery
 
 `scripts/sis_aware.py` adds a third estimator using the known SIS functional form,
 recovery rate, spreading rate and sampling step. It regresses
@@ -168,7 +168,7 @@ and test-RMSE intervals, and four-panel true/recovered network illustrations.
 
 All 60 new fits completed and passed independent checks. Without measurement
 noise, all 30 fits achieve AP=1; at beta 3 the AP gain over raw Lasso is 0.562
-with paired 95% interval [0.508, 0.619]. With noise SD 0.02, SIS-aware AP is
+with paired 95% interval [0.508, 0.619]. With noise SD 0.02, Model-based Lasso AP is
 0.039, 0.062 and 0.160 across beta 0.8, 1.5 and 3, compared with raw Lasso's
 0.038, 0.083 and 0.144. The beta-3 gain interval [-0.004, 0.033] includes zero,
 and noisy test RMSE is worse than raw Lasso in every condition. Known dynamics
@@ -197,7 +197,7 @@ The regression is
 on `h * beta * (1-smoothed_state[i]) * smoothed_state[j]`, for `j != i`.
 Weights are nonnegative, with zero diagonal and an L1 penalty. Training-fold
 RMS scaling keeps the zero intercept. This uses the same known rates and
-sampling step as the SIS-aware estimator.
+sampling step as the Model-based Lasso estimator.
 
 Five whole-trajectory folds jointly select the window and regularization:
 
@@ -227,7 +227,7 @@ is stored under `results/sis_local_poly_pilot/`.
 All 60 local-polynomial fits completed. All 30 noiseless conditions select window 0
 and achieve AP=1. With measurement-noise SD 0.02:
 
-| SIS spreading strength | Raw-state Lasso | SIS-aware | Local polynomial + SIS |
+| SIS spreading strength | Raw-state Lasso | Model-based Lasso | Local polynomial + model-based Lasso |
 | --- | ---: | ---: | ---: |
 | 0.8 | 0.038 | 0.039 | **0.390** |
 | 1.5 | 0.083 | 0.062 | **0.637** |
@@ -238,7 +238,7 @@ precision-recall areas and 6000 selected local-polynomial nodewise KKT condition
 
 Noisy test RMSE (same raw one-step prediction task):
 
-| β | Raw Lasso | SIS-aware | Local polynomial + SIS |
+| β | Raw Lasso | Model-based Lasso | Local polynomial + model-based Lasso |
 | --- | ---: | ---: | ---: |
 | 0.8 | 0.026074 | 0.027519 | 0.027507 |
 | 1.5 | 0.025975 | 0.027430 | 0.027406 |
@@ -287,14 +287,14 @@ With measurement-noise SD 0.02:
 | --- | ---: | ---: | ---: | ---: |
 | Ridge | 0.108 [0.098, 0.119] | 0.152 | 0.093 | 0.028548 |
 | Raw Lasso | 0.189 [0.173, 0.204] | 0.290 | 0.197 | 0.025449 |
-| SIS-aware | 0.186 [0.171, 0.199] | 0.285 | 0.255 | 0.026893 |
-| Local polynomial + SIS | **0.773 [0.755, 0.794]** | **0.734** | **0.667** | 0.026854 |
+| Model-based Lasso | 0.186 [0.171, 0.199] | 0.285 | 0.255 | 0.026893 |
+| Local polynomial + model-based Lasso | **0.773 [0.755, 0.794]** | **0.734** | **0.667** | 0.026854 |
 
-For local polynomial + SIS, community-network AP exceeds random-network AP by
+For local polynomial + model-based Lasso, community-network AP exceeds random-network AP by
 0.062, with paired 95% interval [0.034, 0.088]. Its bridge recall is 0.0675 below
 internal recall, with paired interval [-0.0938, -0.0392] for bridge minus internal.
 Its AP gain over raw Lasso is 0.584 [0.566, 0.603]. Raw Lasso has the lowest noisy
-one-step test RMSE. Without measurement noise, both SIS-aware estimators recover
+one-step test RMSE. Without measurement noise, both model-based methods recover
 all true edges at the 300-edge budget on all ten graphs, with AP=1.
 
 Published figures, per-run metrics, all CV candidate scores, paired intervals,

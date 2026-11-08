@@ -4,9 +4,9 @@ Curated snapshots of the completed experiments:
 
 - [Linear diffusion](baseline/): 180 Lasso/ridge fits.
 - [SIS with raw-state regressions](sis/): 120 fits.
-- [SIS-aware comparison](sis_aware/): 60 additional fits, compared with the 120 SIS baselines.
+- [Model-based Lasso comparison](sis_aware/): 60 additional fits, compared with the 120 SIS baselines.
 
-- [Local polynomial SIS recovery](sis_local_poly/): 60 additional fits with window and penalty selection.
+- [Local polynomial + model-based Lasso](sis_local_poly/): 60 additional fits with window and penalty selection.
 
 Each folder contains figures, aggregate and per-fit metric tables, the recorded
 protocol and a verification summary. PNG and CSV files can be inspected on GitHub.

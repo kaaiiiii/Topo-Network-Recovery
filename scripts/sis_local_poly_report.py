@@ -21,7 +21,7 @@ from make_report import independent_ap
 OUT = ROOT/'results/sis_local_poly'
 SOURCE = ROOT/'results/sis'
 METHODS = ['ridge', 'lasso', 'sis_aware', 'local_poly']
-LABELS = {'ridge':'Ridge', 'lasso':'Raw Lasso', 'sis_aware':'SIS-aware', 'local_poly':'Local polynomial + SIS'}
+LABELS = {'ridge':'Ridge', 'lasso':'Raw Lasso', 'sis_aware':'Model-based Lasso', 'local_poly':'Local polynomial +\nmodel-based Lasso'}
 COLORS = {'ridge':'#8d99a7', 'lasso':'#b86829', 'sis_aware':'#167f83', 'local_poly':'#754ba1'}
 
 
@@ -148,7 +148,7 @@ def plots(rows, summary, windows):
         ax.set(title=LABELS[method], xticks=[0,1], xticklabels=['0','0.02'], yticks=range(3),
                yticklabels=['0.8','1.5','3.0'], xlabel='Measurement-noise SD', ylabel='Spreading strength β')
     fig.colorbar(im, ax=axes, label='Edge average precision')
-    fig.suptitle('Local polynomial preprocessing | mean ± SD across 10 graphs')
+    fig.suptitle('SIS dynamics | local polynomial preprocessing | mean ± SD across 10 graphs')
     fig.savefig(OUT/'recovery_comparison.png',dpi=180); plt.close(fig)
     fig, axes = plt.subplots(1, 3, figsize=(13,4), layout='constrained')
     for ax, beta in zip(axes, SIS['beta']):
@@ -158,7 +158,7 @@ def plots(rows, summary, windows):
         ax.axhline(300/9900,color='#aaa',ls='--',lw=1)
         ax.set(title=f'β = {beta:g}',xlabel='Recall',ylabel='Precision',xlim=(0,1),ylim=(0,1))
     axes[0].legend(loc='upper right',fontsize=8)
-    fig.suptitle('Edge recovery with measurement-noise SD 0.02')
+    fig.suptitle('SIS dynamics | edge recovery with measurement-noise SD 0.02')
     fig.savefig(OUT/'precision_recall_noisy.png',dpi=180); plt.close(fig)
     fig, axes = plt.subplots(1, 3, figsize=(13,4), layout='constrained')
     for ax, beta in zip(axes, SIS['beta']):
@@ -169,7 +169,7 @@ def plots(rows, summary, windows):
         ax.axhline(0,color='#aaa',ls='--',lw=1)
         ax.set(title=f'β = {beta:g}',xticks=range(5),xticklabels=['Raw','5','9','15','21'],
                xlabel='Local polynomial window',ylabel='Validation RMSE change vs raw (mean ± SD)')
-    fig.suptitle('Window selection from training trajectories | noise SD 0.02')
+    fig.suptitle('SIS dynamics | window selection from training trajectories | noise SD 0.02')
     fig.savefig(OUT/'window_selection.png',dpi=180); plt.close(fig)
 
 
@@ -232,7 +232,7 @@ def preprocessing_picture():
             ax.plot(times[radius:-radius],smooth[radius:-radius],color=COLORS['local_poly'],lw=2,label='Local polynomial')
         ax.set(title=f'Node {node}',xlabel='Time',ylabel='Infection probability')
     axes[-1].legend(fontsize=8)
-    fig.suptitle(f'Training trajectory preprocessing | seed 1001, β = 3, noise SD 0.02, selected window {window}')
+    fig.suptitle(f'SIS training trajectory preprocessing | seed 1001, β = 3, noise SD 0.02, selected window {window}')
     fig.savefig(OUT/'preprocessing_example.png',dpi=180); plt.close(fig)
 
 

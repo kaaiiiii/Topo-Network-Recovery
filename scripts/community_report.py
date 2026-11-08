@@ -20,7 +20,7 @@ from community_recovery import CONFIG, community_system, write_mixed_csv
 from make_report import independent_ap
 
 METHODS = CONFIG['methods']
-LABELS = {'ridge':'Ridge','lasso':'Raw Lasso','sis_aware':'SIS-aware','local_poly':'Local polynomial + SIS'}
+LABELS = {'ridge':'Ridge','lasso':'Raw Lasso','sis_aware':'Model-based Lasso','local_poly':'Local polynomial +\nmodel-based Lasso'}
 
 
 def verify(out, seeds, pilot):
@@ -174,7 +174,7 @@ def figures(summary,out,n):
         bars(ax,'random',noise,'average_precision',-.18,'#9aa7b5','Random graph')
         bars(ax,'community',noise,'average_precision',.18,'#754ba1','Four communities')
         ax.set(title=f'Measurement-noise SD = {noise:g}',ylabel='Edge average precision',ylim=(0,1.14),
-               xticks=range(4),xticklabels=['Ridge','Raw Lasso','SIS-aware','Local poly\n+ SIS'])
+               xticks=range(4),xticklabels=['Ridge','Raw Lasso','Model-based\nLasso','Local polynomial +\nmodel-based Lasso'])
     axes[0].legend(loc='upper left',frameon=False,fontsize=9)
     interval_note = f'{n} networks per topology; mean and 95% graph-bootstrap intervals' if n>1 else 'Single-network pilot'
     fig.suptitle(f'Does community structure change network recovery? | SIS β = 3\n'+interval_note)
@@ -184,7 +184,7 @@ def figures(summary,out,n):
         bars(ax,'community',noise,'within_recall_at_300',-.18,'#167f83','Within-community edges (240)')
         bars(ax,'community',noise,'bridge_recall_at_300',.18,'#c78539','Bridge edges (60)')
         ax.set(title=f'Measurement-noise SD = {noise:g}',ylabel='Recall among top 300 positive edge scores',ylim=(0,1.14),
-               xticks=range(4),xticklabels=['Ridge','Raw Lasso','SIS-aware','Local poly\n+ SIS'])
+               xticks=range(4),xticklabels=['Ridge','Raw Lasso','Model-based\nLasso','Local polynomial +\nmodel-based Lasso'])
     axes[0].legend(loc='upper left',frameon=False,fontsize=8)
     interval_note = f'Mean and 95% bootstrap intervals across {n} networks' if n>1 else 'Single-network pilot'
     fig.suptitle(f'Which connections are recovered? | four communities, SIS β = 3\n'+interval_note)

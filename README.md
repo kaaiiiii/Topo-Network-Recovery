@@ -11,7 +11,7 @@ Four completed experiments use ten independently generated 100-node,
 | --- | --- | ---: | --- |
 | Noisy linear diffusion | Lasso and ridge | 180 | [Linear baseline](reference_results/baseline/) |
 | Nonlinear SIS dynamics | Raw-state Lasso and ridge | 120 | [SIS comparison](reference_results/sis/) |
-| Known SIS dynamics | Nonnegative sparse regression | 60 additional | [SIS-aware comparison](reference_results/sis_aware/) |
+| Known SIS dynamics | Nonnegative sparse regression | 60 additional | [Model-based Lasso comparison](reference_results/sis_aware/) |
 | Local polynomial preprocessing | Smoothed-state and derivative regression | 60 additional | [Local polynomial comparison](reference_results/sis_local_poly/) |
 
 PNG figures and CSV tables can be viewed directly on GitHub.
@@ -26,7 +26,7 @@ PNG figures and CSV tables can be viewed directly on GitHub.
 - **Good predictions do not guarantee network recovery.** For noiseless SIS
   at spreading strength 3, raw-state Lasso's mean AP is 0.438, while its test
   RMSE is only 0.153 times the persistence predictor's RMSE.
-- **Knowing the SIS equation helps in the noiseless setting.** The SIS-aware
+- **Knowing the SIS equation helps in the noiseless setting.** The Model-based Lasso
   estimator achieves AP=1 in all 30 noiseless conditions. With measurement noise,
   it does not consistently outperform raw-state Lasso.
 - **Local polynomial preprocessing improves recovery with measurement noise.**
@@ -34,21 +34,21 @@ PNG figures and CSV tables can be viewed directly on GitHub.
 
 Mean AP across ten graphs, with measurement-noise SD 0.02:
 
-| SIS spreading strength | Raw-state Lasso | SIS-aware | Local polynomial + SIS |
+| SIS spreading strength | Raw-state Lasso | Model-based Lasso | Local polynomial + model-based Lasso |
 | --- | ---: | ---: | ---: |
 | 0.8 | 0.038 | 0.039 | **0.390** |
 | 1.5 | 0.083 | 0.062 | **0.637** |
 | 3 | 0.144 | 0.160 | **0.710** |
 
 Local polynomial preprocessing jointly selects the smoothing window and L1 penalty
-using five trajectory folds. Paired 95% intervals on its AP gain over SIS-aware are:
+using five trajectory folds. Paired 95% intervals on its AP gain over Model-based Lasso are:
 
 - β=0.8: +0.350 [+0.315, +0.381].
 - β=1.5: +0.574 [+0.557, +0.592].
 - β=3: +0.550 [+0.531, +0.573].
 
 These intervals resample ten paired graph/trajectory realizations.
-The SIS-aware estimator knows the dynamics and rates and imposes nonnegative
+The Model-based Lasso estimator knows the dynamics and rates and imposes nonnegative
 weights. SIS states are mean-field infection probabilities.
 
 ![Network recovery with measurement noise](reference_results/sis_local_poly/network_example_noisy.png)
@@ -96,11 +96,11 @@ This uses the published baseline metrics. To plot a fresh run, add
 On macOS/Linux, activate with `source .venv/bin/activate`; the remaining commands
 are identical. Use `--jobs 1` to limit parallel CPU use. Nineteen unit tests cover
 simulation, edge direction, validation separation, solver equivalence and the
-SIS-aware regression algebra, local polynomial derivatives and QP refinement. Figure/table scripts also reconcile saved scores and
+Model-based Lasso regression algebra, local polynomial derivatives and QP refinement. Figure/table scripts also reconcile saved scores and
 solver optimality conditions.
 
 Optional pilot runs use seed 5420, excluded from final summaries: add `--pilot`
-to the fitting commands. Run the SIS pilot before the SIS-aware and local polynomial pilots.
+to the fitting commands. Run the SIS pilot before the Model-based Lasso and local polynomial pilots.
 
 **Output policy:** generated trajectories, fitted coefficients and runtime
 protocols go in the ignored `results/` directory. The repository includes
@@ -132,7 +132,7 @@ repository. They are not part of this code repository.
 
 Read [the detailed experiment notes](docs/EXPERIMENTS.md) for parameters,
 validation, uncertainty and convergence checks. The initial
-experiment follows the course guide's Lasso exercise. The SIS-aware extension
+experiment follows the course guide's Lasso exercise. The Model-based Lasso extension
 uses model-based identification with nonnegative sparse regression.
 
 - [Shahrampour and Preciado: topology identification via power spectral analysis](https://arxiv.org/abs/1308.2248).

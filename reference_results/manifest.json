@@ -35,8 +35,8 @@
       "sha256": "98a92f215d768a7f961c7f50b84c2b2c62e4980e0e7505107082b0a971ab16e4"
     },
     "README.md": {
-      "bytes": 1347,
-      "sha256": "c667b4f984f022831091293e7751fc7fba3d8f8490d2549e621a0ae84da3b07f"
+      "bytes": 1362,
+      "sha256": "a72ffd207bca8ed35580480f1219a2d288b16ef7b16f0e45a00ea2748d6ef988"
     },
     "sis/dynamics_and_prediction.png": {
       "bytes": 170333,
@@ -91,32 +91,32 @@
       "sha256": "d9e573ba20bf7aa473d8fd28de0d3497ff833b8c58ccc186837acafd0aef91a3"
     },
     "sis_aware/network_example.png": {
-      "bytes": 548137,
-      "sha256": "d3294e8d832054fb0449086579cb7c92dc647325c7721b3e9fe87287a8dbcc20"
+      "bytes": 548911,
+      "sha256": "96685703bc6eff81be4c15d247982061a9d806a26566acffc0070a72ccbc627b"
     },
     "sis_aware/network_example_details.json": {
       "bytes": 11868,
       "sha256": "2f553a15c460d3c1396fca11e464cae59f3aa917253fd663a5228f22a694050a"
     },
     "sis_aware/network_example_noisy.png": {
-      "bytes": 621519,
-      "sha256": "3161c1569b576ee280c2875628abf01cb748d0949add552fadefb6411a3f21a8"
+      "bytes": 622307,
+      "sha256": "3391153221b00abbde8d69821fd4e6ba678abdf1e12ae00e022efb89078bd5f3"
     },
     "sis_aware/paired_differences.csv": {
       "bytes": 2319,
       "sha256": "f06b08423af8f22b6af9a7e819f92c819a5ba923511dfe2719b890889d349e0c"
     },
     "sis_aware/precision_recall.png": {
-      "bytes": 131183,
-      "sha256": "b312db6987a4ba0447109542b548c44f649e18c2fc08d7dab3821e8c3241f6b6"
+      "bytes": 132745,
+      "sha256": "4d61377209e766f8845e59e163733f29fc88d42057a17d13bd20d800272e8c97"
     },
     "sis_aware/protocol.json": {
       "bytes": 7999,
       "sha256": "add9c32b92d3548ab0fd2bbacfbc03d8201e9f749bab51f8fea0c8b05ac8a917"
     },
     "sis_aware/recovery_comparison.png": {
-      "bytes": 156524,
-      "sha256": "ca1176842c99278d63c13c540ff78da78973d7f3efba97d1727a60e96dce4164"
+      "bytes": 157618,
+      "sha256": "f5a0cb04ef683c3f04f3793ca8f8046350aa860a5531c3665f3eda2f0df6fa56"
     },
     "sis_aware/summary.csv": {
       "bytes": 2851,
@@ -135,28 +135,28 @@
       "sha256": "f5c1f7cf03be28ea47d85e83d2cdd2e0f163411219b887807ff4bd7a96da8f3c"
     },
     "sis_local_poly/network_example_noisy.png": {
-      "bytes": 587155,
-      "sha256": "54826b67ea61dab181949bd5724bd983a6819b03c1c3830cc2de80b1f5910741"
+      "bytes": 566518,
+      "sha256": "a18abaf3ebedc65d8fd4ab7cb3f85d088f67bf87305163e950f5dcb04df51e06"
     },
     "sis_local_poly/paired_differences.csv": {
       "bytes": 3132,
       "sha256": "409c56505e2d8ab76a0bee5fbbca680e4291b32f659764c16a43ea76f3afc11c"
     },
     "sis_local_poly/precision_recall_noisy.png": {
-      "bytes": 104397,
-      "sha256": "50554ca0ce4e56706823dad4f5e0f0b363159dce4615d3f5c85ecef6521e5595"
+      "bytes": 109587,
+      "sha256": "da2f80fc33ba9e0e82fc1a34811fa6411030dcda1d62a1fd6c253bc35e5d8739"
     },
     "sis_local_poly/preprocessing_example.png": {
-      "bytes": 163446,
-      "sha256": "965ebc8dd23c7223524bc7d64d4fbc96feca101c298ab484241556c7208c9493"
+      "bytes": 163908,
+      "sha256": "1a5ec26aa977e042ee8c24ab5a1598b59743aef37af7436068d8012a0bdd8a24"
     },
     "sis_local_poly/protocol.json": {
       "bytes": 9141,
       "sha256": "a8292b4c09111ce5342b60f4a0b0664aa2416a14b0a7f5434c9a7e140085b3d0"
     },
     "sis_local_poly/recovery_comparison.png": {
-      "bytes": 168723,
-      "sha256": "0b8f375871e2988e6a03723ab586e7aa61e9ec05d00af1a7b92581640641b0ff"
+      "bytes": 172489,
+      "sha256": "a9dc40b7c541d949011b1c39eea1a73a6017bd5bde735a35e2d102ccb2da3518"
     },
     "sis_local_poly/summary.csv": {
       "bytes": 3599,
@@ -171,12 +171,12 @@
       "sha256": "69c4fba047e58e8583cdd6111f7ce8e9b70163d3461e746e8a4655471931d1a9"
     },
     "sis_local_poly/window_selection.png": {
-      "bytes": 135452,
-      "sha256": "957bf18e5a73bc7d36af3edb27e4f4a943c4e46aa274dbaa352314d2434de20d"
+      "bytes": 136702,
+      "sha256": "8da5d7840501b4241e4eb6846b2d79b2e6dbbfa23da3a21ec164be2a298381e4"
     },
     "community/bridge_recovery.png": {
-      "bytes": 138217,
-      "sha256": "0a22fac996d72654b46bddfc3a02b34611c2daad86ca86a7b7cee78c745afc15"
+      "bytes": 146916,
+      "sha256": "620171bb4b305d8807f98b3172487c0cf5c48837ea000b2a5e4eeba28ba63825"
     },
     "community/comparison_metrics.csv": {
       "bytes": 45929,
@@ -195,16 +195,16 @@
       "sha256": "8dc0462e6ce4d592965c9252f4475143b7cb06d84eed46168fa1a9db118a0fc0"
     },
     "community/network_example.png": {
-      "bytes": 2216534,
-      "sha256": "2afaa373bd69fa2e9ba6c47af47b8b47bbeaadadeeb9abcc957717aa1adc3923"
+      "bytes": 2216989,
+      "sha256": "e084aa7cab91f0238e2ac85eca80354845074a9d432acf0868aaa501bf6cb70a"
     },
     "community/network_example_details.json": {
       "bytes": 834,
       "sha256": "5c782e5ca0e946b1e67e3a339d00f340e4fcf8c7ff4b620626e699f7404970d4"
     },
     "community/network_example_noisy.png": {
-      "bytes": 2877018,
-      "sha256": "07eddaef9221f4dd06333dab2404b1b600c2140ad154fab29a9ece29f5207597"
+      "bytes": 2877737,
+      "sha256": "9699d0a2112cb602b49c08b3f414a8a3e9701b12181f24c5f185c093cfba9e7b"
     },
     "community/paired_differences.csv": {
       "bytes": 3916,
@@ -216,7 +216,7 @@
     },
     "community/report_protocol.json": {
       "bytes": 390,
-      "sha256": "08175e69200e187bc33a1cc4adffb0ad365c6a904a4440ec7671090607bc9ef2"
+      "sha256": "22fba24265fa72fd8ce5b68404b3a8634ab499024eb42fabe1269e21ba02027f"
     },
     "community/selected_windows.csv": {
       "bytes": 438,
@@ -227,8 +227,8 @@
       "sha256": "e5e6eb8c8b844800fdbb45dca067107a6f662cd7aea8d339e634aa22a7c573c7"
     },
     "community/topology_comparison.png": {
-      "bytes": 124778,
-      "sha256": "c7afa8f7beb89cc841768d2f19076d11498f7457777b4b4a047d46a947a4a932"
+      "bytes": 133567,
+      "sha256": "e537f7de12d8b655431b493e9190519b919deae622b4d6631c25d09a056a736d"
     },
     "community/verification.json": {
       "bytes": 334,
