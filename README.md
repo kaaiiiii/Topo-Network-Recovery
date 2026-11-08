@@ -82,6 +82,17 @@ python scripts/sis_local_poly.py --jobs 4
 python scripts/sis_local_poly_report.py
 ```
 
+The baseline checkpoint figure shows ridge at measurement-noise ratio 0.25,
+with 95% graph-bootstrap intervals for test RMSE and edge average precision:
+
+```powershell
+python scripts/make_checkpoint.py
+```
+
+This uses the published baseline metrics. To plot a fresh run, add
+`--metrics results/baseline/metrics.csv`. The figure is saved as
+`results/checkpoint/baseline.png`; `--output` selects a different destination.
+
 On macOS/Linux, activate with `source .venv/bin/activate`; the remaining commands
 are identical. Use `--jobs 1` to limit parallel CPU use. Nineteen unit tests cover
 simulation, edge direction, validation separation, solver equivalence and the
