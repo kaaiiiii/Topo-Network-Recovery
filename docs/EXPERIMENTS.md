@@ -299,3 +299,98 @@ all true edges at the 300-edge budget on all ten graphs, with AP=1.
 
 Published figures, per-run metrics, all CV candidate scores, paired intervals,
 and verification records are in `reference_results/community/`.
+
+## Neural Granger causality with cMLP
+
+`scripts/neural_granger.py` implements the component-wise MLP from
+[Tank et al., Neural Granger Causality (TPAMI, 2022)](https://doi.org/10.1109/TPAMI.2021.3065601).
+For each target node, a separate MLP maps the current observed state vector to
+that node's next observed state. Each MLP has one ReLU hidden layer of width 10
+and one linear output. Lag one matches the one-step task used by the linear
+baselines. The model receives observed trajectories and an initialization seed.
+
+The objective for each target is mean squared prediction error plus group Lasso
+on input-layer weights and a 0.01 ridge penalty on output-layer weights.
+All weights linking one source node to a target's hidden units form one group.
+The L2 norm of that group supplies its edge score, following the author's
+`GC(threshold=False)` implementation. The diagonal is excluded when scoring edges.
+
+Five whole-trajectory folds jointly choose the group penalty from
+`[0, 0.001, 0.003, 0.01, 0.03, 0.1, 0.3]` and the training duration from
+`[1500, 4000, 10000]` optimizer steps. These are 21 scored candidates per fold.
+Each fold fits separate predictor and target standardization on its training
+trajectories. Selection minimizes mean validation MSE in original observation
+units; the final model is refit on all 20 training trajectories for the selected
+number of steps and scored on the 10 independent test trajectories.
+
+Adam uses learning rate 0.001 and batches of 256 within-trajectory transitions
+sampled with replacement. Training candidates share initial weights and sampled
+transition indices within each fold. Initialization seeds are derived from the
+network seed, stream 8100, and fold index; index 5 is reserved for the final fit.
+Computations use deterministic float32 PyTorch with TF32 disabled. GPU graph
+capture accelerates the final refit; a separate test checks its equivalence to
+ordinary optimizer updates.
+
+The comparison uses beta=3, measurement-noise SD 0 and 0.02, the random and
+four-community networks, and seeds 1001-1010: 40 neural fits. The saved observations,
+test trajectories, five-fold partitions and graph-bootstrap evaluation match the
+earlier methods. SIS equations and rates enter the data generator and the
+model-based regressions; cMLP learns its transition function from observations.
+
+The author's MIT-licensed reference files are retained in `third_party/neural_gc/`
+at the commit recorded in `source.json`. Tests compare forward predictions,
+objectives, gradients, one Adam update, and edge scores against those files.
+Saved-model predictions are independently recomputed using NumPy and PyTorch.
+
+Run the SIS, model-based, local-polynomial and community experiments above before
+generating this comparison.
+
+```powershell
+# Install a CUDA build on a compatible NVIDIA system.
+.\.venv\Scripts\python.exe -m pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cu130
+.\.venv\Scripts\python.exe -u scripts/neural_granger.py --pilot
+.\.venv\Scripts\python.exe scripts/neural_granger_report.py --pilot
+.\.venv\Scripts\python.exe -u scripts/neural_granger.py
+.\.venv\Scripts\python.exe scripts/neural_granger_report.py
+```
+
+Use `--device cpu` for CPU execution. Outputs are under `results/neural_granger/`.
+The report compares recovery AP and prediction RMSE across five methods, computes
+paired 95% bootstrap differences over ten network seeds, and draws a fixed-seed
+community-network example. All tuning settings, model arrays, input hashes and
+training traces are saved with the experiment. The independent pilot uses seed
+5420; exploratory pilot configurations are archived under `.local_archive/results/`.
+
+### cMLP results
+
+All 40 fits completed. Edge-recovery AP is averaged over ten network seeds;
+brackets show 95% percentile intervals from 5,000 graph-bootstrap resamples.
+
+| Network | Noise SD | Raw Lasso AP | cMLP AP [95% CI] | Local polynomial + model-based Lasso AP |
+|---|---:|---:|---:|---:|
+| Random | 0 | 0.438 | 0.367 [0.349, 0.386] | 1.000 |
+| Random | 0.02 | 0.144 | 0.117 [0.106, 0.127] | 0.710 |
+| Four communities | 0 | 0.394 | 0.391 [0.372, 0.410] | 1.000 |
+| Four communities | 0.02 | 0.189 | 0.146 [0.138, 0.155] | 0.773 |
+
+At noise SD 0.02, the paired cMLP-minus-Raw-Lasso AP difference is
+-0.0271 [-0.0361, -0.0188] for random networks and
+-0.0428 [-0.0504, -0.0347] for community networks.
+Without measurement noise, the corresponding differences are
+-0.0707 [-0.1227, -0.0140] and -0.0032 [-0.0380, 0.0311].
+
+Noisy one-step prediction improves slightly despite the lower edge-recovery AP.
+For random networks, mean test RMSE is 0.025454 for cMLP versus 0.025545 for
+Raw Lasso; the paired difference is -0.0000903 [-0.0001344, -0.0000413].
+For community networks, it is 0.025351 versus 0.025449, with paired difference
+-0.0000975 [-0.0001502, -0.0000419]. These are relative RMSE reductions of
+0.35% and 0.38%, respectively.
+
+All 20 noiseless fits select penalty 0.003 and 10,000 optimizer steps.
+All 20 noisy fits select penalty 0.03; nine select 4,000 steps and eleven select
+10,000 steps. Saved-model verification checks all 40 AP values, test RMSE values,
+CV selections, and NumPy-versus-PyTorch predictions, plus 160 scaler arrays.
+The largest prediction discrepancy between the two implementations is 4.44e-16.
+
+Published tables, verification records and four figures are in
+[`reference_results/neural_granger/`](../reference_results/neural_granger/).

@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/iancovert/Neural-GC",
+  "commit": "c3263d40433aaf3acc94c27a0c1abf9b8e9fcedf",
+  "sha256": {
+    "models/cmlp.py": "043f4732f164e28d8452733d3de29f18ecc790bba74779e73374dd37fda89c47",
+    "models/model_helper.py": "4372288ff16cb2a7f389c6e75c15293bef0c93bfdd9de7971541b7fe58af4366",
+    "LICENSE": "11d361fdf3f691727cb8c146e2a578d53d4cae5a36ab47ba6dc0884f71ead52a"
+  }
+}

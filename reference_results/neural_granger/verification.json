@@ -1,0 +1,11 @@
+{
+  "neural_fits": 40,
+  "comparison_fits": 200,
+  "independent_AP_checks": 40,
+  "independent_RMSE_checks": 40,
+  "independent_torch_prediction_checks": 40,
+  "max_torch_numpy_difference": 4.440892098500626e-16,
+  "selected_CV_settings_checked": 40,
+  "scaler_arrays_checked": 160,
+  "upstream_source_files_checked": 3
+}

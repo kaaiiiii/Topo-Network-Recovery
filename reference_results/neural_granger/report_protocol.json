@@ -1,0 +1,6 @@
+{
+  "bootstrap_seed": 85420,
+  "bootstrap_resamples": 5000,
+  "bootstrap_unit": "Paired network seeds; percentile intervals for means and cMLP-minus-reference differences",
+  "report_sha256": "74a2aae727131c8617cb5ab3d9608211004c3cec791e6b53cff71bdf3536eae0"
+}

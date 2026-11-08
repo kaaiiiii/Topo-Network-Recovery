@@ -233,6 +233,58 @@
     "community/verification.json": {
       "bytes": 334,
       "sha256": "041d0ddaccd0a66d93ad9067ac66bc4386520f0b7068bb58d373ac93a62aca1f"
+    },
+    "neural_granger/comparison_metrics.csv": {
+      "bytes": 54944,
+      "sha256": "e40f303bbc8558f40b6284078a27e6ee19be725d5d67de5ee6599906fd1b3a8d"
+    },
+    "neural_granger/cv_trials.csv": {
+      "bytes": 130516,
+      "sha256": "2d789c0fbf5475c79e32d6260f9673746c9dfc3a36f7a0a89c21f429af515171"
+    },
+    "neural_granger/metrics.csv": {
+      "bytes": 8311,
+      "sha256": "fe79b158e1b8a60a094283732396930c6c26f959b9a27ab725a2f07f261de089"
+    },
+    "neural_granger/network_example_noisy.png": {
+      "bytes": 2545590,
+      "sha256": "933f807e1f8862f34de5c5b45560ccef441b0adb15f1c6f53b2384a995b25c11"
+    },
+    "neural_granger/paired_differences.csv": {
+      "bytes": 4887,
+      "sha256": "10d6e256b5fec63bb879c4ed624b4124cad699db017adc2cc841b915d940cd11"
+    },
+    "neural_granger/prediction_comparison.png": {
+      "bytes": 193269,
+      "sha256": "bd0006fbc56788b30f4e8a4762b8d0015736e81ef9aef172ef8bad11c28c9284"
+    },
+    "neural_granger/protocol.json": {
+      "bytes": 5718,
+      "sha256": "12bd608940078c776d81fc99be8786e60954e46e4811dc5c4916edd4f655ba0c"
+    },
+    "neural_granger/recovery_comparison.png": {
+      "bytes": 195655,
+      "sha256": "71b512fc8b5a58bd08f7e9346eb722db3a4b2db30fe3a616d97744566e151489"
+    },
+    "neural_granger/report_protocol.json": {
+      "bytes": 265,
+      "sha256": "9facbd175b3f0ab3756dc0ecbc20fe46bc86a0d34076d502e0185d93f88cf142"
+    },
+    "neural_granger/selected_settings.csv": {
+      "bytes": 3840,
+      "sha256": "db8dfe7673a560d3d32ad9d0bd2fbbfe91c8d67edd7ba9c375cf57cd20d15038"
+    },
+    "neural_granger/summary.csv": {
+      "bytes": 6628,
+      "sha256": "0aea6d60d7cd51b3dde04d89e6d2c84c8382d2b00ec323f7e499a4746b6408b7"
+    },
+    "neural_granger/validation_curves.png": {
+      "bytes": 261708,
+      "sha256": "a51910505171df98e042e008edbc035593390e5dcbd2f7e6c36612e2ebda6f9c"
+    },
+    "neural_granger/verification.json": {
+      "bytes": 331,
+      "sha256": "c89f56132dd83ee652f8f2222b2e876db466ce107566e22322a8b497404af846"
     }
   }
 }

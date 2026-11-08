@@ -1,0 +1,105 @@
+{
+  "config": {
+    "hidden": 10,
+    "lag": 1,
+    "activation": "relu",
+    "lambdas": [
+      0.0,
+      0.001,
+      0.003,
+      0.01,
+      0.03,
+      0.1,
+      0.3
+    ],
+    "epochs": [
+      1500,
+      4000,
+      10000
+    ],
+    "learning_rate": 0.001,
+    "output_ridge": 0.01,
+    "batch_size": 256,
+    "optimizer": "Minibatch Adam on per-node MSE + input group Lasso + output-weight ridge",
+    "epoch_unit": "Optimizer steps; 256 within-trajectory transitions sampled with replacement per step",
+    "scaling": "Separate predictor and target StandardScaler, fitted within training folds",
+    "selection": "Mean raw validation MSE across five whole-trajectory folds; jointly select lambda and epoch",
+    "edge_score": "L2 norm of each input group, as author GC(threshold=False); diagonal excluded",
+    "beta": 3.0,
+    "noise_sd": [
+      0.0,
+      0.02
+    ],
+    "topologies": [
+      "random",
+      "community"
+    ],
+    "seeds": [
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008,
+      1009,
+      1010
+    ],
+    "training_seed_stream": 8100,
+    "dtype": "float32",
+    "deterministic": true,
+    "cuda_graph_refit": true
+  },
+  "pilot": false,
+  "torch_version": "2.14.1+cu130",
+  "device": "cuda",
+  "device_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "upstream": {
+    "repository": "https://github.com/iancovert/Neural-GC",
+    "commit": "c3263d40433aaf3acc94c27a0c1abf9b8e9fcedf",
+    "sha256": {
+      "models/cmlp.py": "043f4732f164e28d8452733d3de29f18ecc790bba74779e73374dd37fda89c47",
+      "models/model_helper.py": "4372288ff16cb2a7f389c6e75c15293bef0c93bfdd9de7971541b7fe58af4366",
+      "LICENSE": "11d361fdf3f691727cb8c146e2a578d53d4cae5a36ab47ba6dc0884f71ead52a"
+    }
+  },
+  "script_sha256": {
+    "neural_granger.py": "dff6f3a51eebfa492a0fe4e3632fed61180f68995658a95690a21f62705797f6",
+    "sis_recovery.py": "7fa6e96f78067315fcfaa7e2f790788d795b4e277150b7a4b4723a958593045a",
+    "network_recovery.py": "682bb38cf201a583bcec3cc45759570d4eb3caffa24fb18676714a30a0e3584f",
+    "community_recovery.py": "23dd3729645b3d36d412d582594fbc76797624a607171029d1e8de3e599d244f"
+  },
+  "input_sha256": {
+    "results/sis/seed_1001/system.npz": "dfebe4fc6a4a5fefe8eaa00c42b20e59b4d16043391807ff940e00f92bdefe97",
+    "results/sis/seed_1001/trajectories_beta3.npz": "f3f8a500bd750598236a868a71a3523b65c4b18d0fff6fa25f5ce549e108682a",
+    "results/community/seed_1001/system.npz": "3cedd9502c221d7e90632e39c39aeb6585218a1ed1c31bcf7fbc71ef2d0925c6",
+    "results/sis/seed_1002/system.npz": "73b753253d7eaa5578de3d81e94770217e329fa363daa78bd05cc0620a12c56e",
+    "results/sis/seed_1002/trajectories_beta3.npz": "254a481589e9bd039570278a9e92902b39b9e2bbc052db03a24ee648d648cef6",
+    "results/community/seed_1002/system.npz": "4be2c68d193aabc7419e35cacfb71318f9ff02a76a6bfd5b8266196c13ccb79a",
+    "results/sis/seed_1003/system.npz": "a401f1b52f0f449f4c0cccd1e7c0cf771fcafc5ee1ab2582fc6f34fab2dab318",
+    "results/sis/seed_1003/trajectories_beta3.npz": "f0a690fe63f48aba794ee6d10372649ee7178027ec8ba22f1bcdbc7531255a1e",
+    "results/community/seed_1003/system.npz": "6fdf4d4f9b318e81f4214c5050cef2f7b8c6824735cdc7fdba5104f552b841dc",
+    "results/sis/seed_1004/system.npz": "4b49ac133bee95dd92f1d278bb477ddad4f66ff401ff7eecfd40e3e376a0659c",
+    "results/sis/seed_1004/trajectories_beta3.npz": "55311fd13a6a12b5b262b04ee676ae04445704eb39c8bc0c249adca56711f86d",
+    "results/community/seed_1004/system.npz": "2c7249cc09ff90274f3ec6b5669341f2853941032d1546dadfcfe54cae055b2b",
+    "results/sis/seed_1005/system.npz": "62b15305e20cc7a278a3798b0d7ead42633f031038408578fa40aa41c5cd6afd",
+    "results/sis/seed_1005/trajectories_beta3.npz": "acdd8acbb651efe836a487fc5e58f71a84fb24b066283e5d413ee92a067fa8ee",
+    "results/community/seed_1005/system.npz": "42a273d61120e1aac1899a958dc8904e2c64bad75d91ad931ee20dd0950d7807",
+    "results/sis/seed_1006/system.npz": "071f28da1ee31bf44a96a885cc313aedf36efb5babec8672308a216642a0db28",
+    "results/sis/seed_1006/trajectories_beta3.npz": "71f6e3bd3bc553aa107defae9fc00bd2e611743984101218a86ee1ea724e7296",
+    "results/community/seed_1006/system.npz": "0e4b036c4afcb180aab4364201a04da2139a9313b5e9d470f41615044d0f3f65",
+    "results/sis/seed_1007/system.npz": "5737957682aa23f667401b20b4469a96bceaeb16fa03be1b6e97915d66b79bd0",
+    "results/sis/seed_1007/trajectories_beta3.npz": "8fa279d2d4683c8ff2be5af4deaea449658c4bedd808a51c4b2cd85c79350d23",
+    "results/community/seed_1007/system.npz": "610342c5c394c085f340e1b37a0f791d86e645ca75a3dd66b2a2c0b1540f9902",
+    "results/sis/seed_1008/system.npz": "b0d1a643cfcfa74769c435374b343122f72d9bdf4374badd8c31ab0005ecc993",
+    "results/sis/seed_1008/trajectories_beta3.npz": "883bc749bf36f24c6b881f12e034152418ec4c19b79a98776c2d248d75fb9bbc",
+    "results/community/seed_1008/system.npz": "7533185edd0c36abbe6c28a593348f8431aef168653dd4d1da67bf236386738c",
+    "results/sis/seed_1009/system.npz": "ac519cf07b9ec5343aca7c7e5332acec960324c28548bb04c5faf3a95b47376d",
+    "results/sis/seed_1009/trajectories_beta3.npz": "eddecaea3642ef57dc0c6889fdba9bf989ae0127a0b40cbed449a22c6edf0abb",
+    "results/community/seed_1009/system.npz": "fcc4e0fc74db76d79ca2781257d8f2bc53c619ad7f8dfa61e67d07b3ccbdfdca",
+    "results/sis/seed_1010/system.npz": "7da6b5f5434315885730547d7dd0e4bf07bf675083a51a10d942a6efe9bc4361",
+    "results/sis/seed_1010/trajectories_beta3.npz": "245522002d226ef6c14f8e3777c7de8cfce8098f6863c451917d1855100f10b8",
+    "results/community/seed_1010/system.npz": "31c0e8e5426461ba1929b72af670dfe57152c9dee2593585ca41b031a1e21979"
+  }
+}
