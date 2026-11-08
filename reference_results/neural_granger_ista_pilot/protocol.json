@@ -1,0 +1,51 @@
+{
+  "settings": {
+    "seed": 5420,
+    "topology": "random",
+    "hidden": [
+      10,
+      100
+    ],
+    "lag": 1,
+    "noise_sd": [
+      0.0,
+      0.02
+    ],
+    "learning_rates": [
+      0.05,
+      0.01,
+      0.005
+    ],
+    "max_iter": 50000,
+    "check_every": 100,
+    "lookback": 5,
+    "output_ridge": 0.01,
+    "penalty": "GL (equivalent to H at lag one)",
+    "lambda_source": "Saved five-fold Adam pilot selection; held fixed for optimizer comparison",
+    "optimizer": "Full-batch ISTA with group soft thresholding and best-training-objective restoration"
+  },
+  "torch_version": "2.14.1+cu130",
+  "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "source_sha256": {
+    "neural_granger_ista_pilot.py": "cd79c9519ae7518c90e58978d521c5ab19ca295095bd188911722e8f15124499",
+    "neural_granger.py": "dff6f3a51eebfa492a0fe4e3632fed61180f68995658a95690a21f62705797f6",
+    "sis_recovery.py": "7fa6e96f78067315fcfaa7e2f790788d795b4e277150b7a4b4723a958593045a"
+  },
+  "input_sha256": {
+    "results/sis_pilot/seed_5420/system.npz": "03d50155c2f3bda6e14dbcb6da52af3d0338b4ddb9536d4bd259d04299d689d9",
+    "results/sis_pilot/seed_5420/trajectories_beta3.npz": "1d04513f9e2972ccf16e6ad805f994eb4b24f48dcacd0db413d3275d354cf73e"
+  },
+  "adam_reference_sha256": {
+    "reference_results/neural_granger_ista_pilot/adam_reference/seed_5420/random_noise0.02.json": "a73fd7bccf50fb8ef7f444312b0ce6117f1d4584b806e40c46dba760360040cf",
+    "reference_results/neural_granger_ista_pilot/adam_reference/seed_5420/random_noise0.json": "64e3415ff8239e0fed7a4c4a941c3abddc4f2c054b1908b93ef652e0351a78b0"
+  },
+  "upstream": {
+    "repository": "https://github.com/iancovert/Neural-GC",
+    "commit": "c3263d40433aaf3acc94c27a0c1abf9b8e9fcedf",
+    "sha256": {
+      "models/cmlp.py": "043f4732f164e28d8452733d3de29f18ecc790bba74779e73374dd37fda89c47",
+      "models/model_helper.py": "4372288ff16cb2a7f389c6e75c15293bef0c93bfdd9de7971541b7fe58af4366",
+      "LICENSE": "11d361fdf3f691727cb8c146e2a578d53d4cae5a36ab47ba6dc0884f71ead52a"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "completed_fits_checked": 4,
+  "scaler_arrays_checked": 16,
+  "independent_AP_checks": 4,
+  "independent_RMSE_checks": 4,
+  "best_checkpoint_checks": 4,
+  "stable_rate_rule": "First completed rate in [0.05, 0.01, 0.005]",
+  "report_sha256": "f0ec6e0e6f4b9347a5498b9f94d1bbfb6a2656914a5756197af3dfc01c270572"
+}

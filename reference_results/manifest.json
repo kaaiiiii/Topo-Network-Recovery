@@ -285,6 +285,78 @@
     "neural_granger/verification.json": {
       "bytes": 331,
       "sha256": "c89f56132dd83ee652f8f2222b2e876db466ce107566e22322a8b497404af846"
+    },
+    "neural_granger_ista_pilot/adam_reference/seed_5420/random_noise0.02.json": {
+      "bytes": 136863,
+      "sha256": "a73fd7bccf50fb8ef7f444312b0ce6117f1d4584b806e40c46dba760360040cf"
+    },
+    "neural_granger_ista_pilot/adam_reference/seed_5420/random_noise0.json": {
+      "bytes": 139066,
+      "sha256": "64e3415ff8239e0fed7a4c4a941c3abddc4f2c054b1908b93ef652e0351a78b0"
+    },
+    "neural_granger_ista_pilot/attempts.csv": {
+      "bytes": 961,
+      "sha256": "1439a0fb64914a21bb07b4595d0040a536f6d08e9ac5f81949c4b409d7bda297"
+    },
+    "neural_granger_ista_pilot/comparison.csv": {
+      "bytes": 847,
+      "sha256": "25d592eb33f8a3e501cd6e15346a3e4aa6cde2008885940c4bb6935525daf7f6"
+    },
+    "neural_granger_ista_pilot/hidden100_noise0.02_lr0.01.json": {
+      "bytes": 59558,
+      "sha256": "5c54732f2e76c3a2081583161e3f6ce5e48f936df4b6ab1e5df0588ca040461d"
+    },
+    "neural_granger_ista_pilot/hidden100_noise0.02_lr0.01_trace.csv": {
+      "bytes": 23203,
+      "sha256": "c023bd6fa1d5e80bf4129120c63dd7acaea8a05b45051d489efae6ca562cf89e"
+    },
+    "neural_granger_ista_pilot/hidden100_noise0.02_lr0.05.json": {
+      "bytes": 1028,
+      "sha256": "0d03039219de2ce904bb4df489ca4aeb9729d7de191490a8ee02bed3d4147919"
+    },
+    "neural_granger_ista_pilot/hidden100_noise0_lr0.05.json": {
+      "bytes": 85549,
+      "sha256": "0741e19d671fc019b8d464d0888630889f7255023fbe3b86dbb7571f37c657f6"
+    },
+    "neural_granger_ista_pilot/hidden100_noise0_lr0.05_trace.csv": {
+      "bytes": 34387,
+      "sha256": "b8ab4749d864d84c93b3a647dd118be49f2c698eb16b44c2f9691bd407a98729"
+    },
+    "neural_granger_ista_pilot/hidden10_noise0.02_lr0.01.json": {
+      "bytes": 84413,
+      "sha256": "29bb929d9b7d3bd51bfadb0526d36b4d63c1457da8852161e18cd8e7c2874981"
+    },
+    "neural_granger_ista_pilot/hidden10_noise0.02_lr0.01_trace.csv": {
+      "bytes": 33252,
+      "sha256": "0706cd5a3e633f13f292125b196769449b909b6f7b5b00c0d33b4bfb8817b9cc"
+    },
+    "neural_granger_ista_pilot/hidden10_noise0.02_lr0.05.json": {
+      "bytes": 747,
+      "sha256": "ea22178dbce7da9043d74625c5fbfbbc295c43ba6ae29bcacbf5356198787e91"
+    },
+    "neural_granger_ista_pilot/hidden10_noise0_lr0.05.json": {
+      "bytes": 85956,
+      "sha256": "4c0bca2d10cd013d105684b54f2fd1845bc5c07bf97dc94cfeb3b221fc646ad5"
+    },
+    "neural_granger_ista_pilot/hidden10_noise0_lr0.05_trace.csv": {
+      "bytes": 34792,
+      "sha256": "c0f7bbec1c3c3fd660f9843a0243bf7266c5cb7a15733d40c6f43e7cd07d30e6"
+    },
+    "neural_granger_ista_pilot/optimizer_comparison.png": {
+      "bytes": 172470,
+      "sha256": "ceed25a2238db31cdc72c4b0c027e7072fc08c34e7685808f22a660b7cf63657"
+    },
+    "neural_granger_ista_pilot/protocol.json": {
+      "bytes": 2093,
+      "sha256": "ef57d71a4ddf7ee719a03c1f481dfb356225c993cd28fdd47df8e08498911b5a"
+    },
+    "neural_granger_ista_pilot/training_comparison.png": {
+      "bytes": 161845,
+      "sha256": "3b34bbe31022ffd81872d817e7fb9d976ed378eef110977369e3ff2506d0b734"
+    },
+    "neural_granger_ista_pilot/verification.json": {
+      "bytes": 321,
+      "sha256": "cf9c4b2fae28f602b34de82daa07c1ba99b51fb6548190f81aac07ddfee81a5f"
     }
   }
 }

@@ -1,0 +1,32 @@
+{
+  "metrics": {
+    "method": "ista",
+    "hidden": 10,
+    "noise_sd": 0.02,
+    "alpha": 0.03,
+    "status": "diverged",
+    "stopped_step": 400,
+    "learning_rate": 0.05,
+    "seconds": 0.2956776999635622
+  },
+  "training_history": [
+    {
+      "step": 100,
+      "objective": 0.22604568302631378,
+      "scaled_mse": 0.07291845232248306,
+      "nonzero_fraction": 0.943399965763092
+    },
+    {
+      "step": 200,
+      "objective": 0.14080601930618286,
+      "scaled_mse": 0.07211526483297348,
+      "nonzero_fraction": 0.6104999780654907
+    },
+    {
+      "step": 300,
+      "objective": 0.16240550577640533,
+      "scaled_mse": 0.09703890234231949,
+      "nonzero_fraction": 0.5216000080108643
+    }
+  ]
+}
