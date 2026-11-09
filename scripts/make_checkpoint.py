@@ -74,7 +74,7 @@ def style(ax, title, ylabel, xlabel):
 def plot(summaries, curves, grid, output):
     plt.rcParams.update({'font.size': 10.5, 'axes.spines.top': False, 'axes.spines.right': False,
                          'figure.facecolor': 'white', 'savefig.facecolor': 'white', 'axes.axisbelow': True})
-    fig, axes = plt.subplots(1, 3, figsize=(15, 5.4), gridspec_kw=dict(width_ratios=[1, 1, 1.05]))
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4.6), gridspec_kw=dict(width_ratios=[1, 1, 1.05]))
     x = np.arange(len(LENGTHS))
     panels = [('test_rmse', 'Next-state prediction (lower is better)', 'Test RMSE (state units)'),
               ('average_precision', 'Directed-edge recovery (higher is better)', 'Average precision')]
@@ -111,15 +111,8 @@ def plot(summaries, curves, grid, output):
     ax.grid(axis='x', color=GRID, lw=.8)
     ax.legend(loc='center left', frameon=False)
 
-    fig.suptitle('More data helps both methods; ridge and Lasso rank differently on prediction and recovery',
-                 fontsize=14, color=INK, x=.06, ha='left', y=.98)
-    fig.text(.06, .905, '100 nodes, 300 directed edges | measurement-noise SD / stationary SD = 0.25 | '
-             'five chronological CV folds select each penalty', fontsize=10, color=MUTED, ha='left')
-    fig.text(.06, .025, 'Points: mean over 10 independent networks; error bars: 95% bootstrap intervals (10,000 resamples). '
-             'PR lines: mean interpolated precision; bands: range across the 10 networks.\n'
-             'Lasso sets 96% of off-diagonal coefficients exactly to zero; those edges tie, so its precision drops to the random level near recall 0.92. '
-             'Test data: separate 1,000-transition trajectories.', fontsize=8.8, color=MUTED, ha='left')
-    fig.subplots_adjust(left=.06, right=.985, bottom=.22, top=.78, wspace=.27)
+    # Setup, uncertainty and the Lasso tie at recall ~0.92 are described in the caption, not on the figure.
+    fig.subplots_adjust(left=.06, right=.985, bottom=.13, top=.9, wspace=.27)
     output.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(output, dpi=200)
     plt.close(fig)
