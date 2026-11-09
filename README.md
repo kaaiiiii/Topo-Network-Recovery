@@ -83,14 +83,17 @@ python scripts/sis_local_poly.py --jobs 4
 python scripts/sis_local_poly_report.py
 ```
 
-The baseline checkpoint figure shows ridge at measurement-noise ratio 0.25,
-with 95% graph-bootstrap intervals for test RMSE and edge average precision:
+The checkpoint figure compares the ridge baseline with Lasso at measurement-noise
+ratio 0.25: test RMSE and edge average precision with 95% graph-bootstrap
+intervals, plus precision-recall curves at 1000 transitions:
 
 ```powershell
 python scripts/make_checkpoint.py
 ```
 
-This uses the published baseline metrics. To plot a fresh run, add
+RMSE and AP come from the published baseline metrics; the precision-recall
+panel reads per-fit arrays from a local run of `scripts/network_recovery.py`
+(`--runs`, default `results/baseline`). To plot fresh metrics too, add
 `--metrics results/baseline/metrics.csv`. The figure is saved as
 `results/checkpoint/baseline.png`; `--output` selects a different destination.
 

@@ -1,4 +1,10 @@
-"""Make the ridge checkpoint figure and bootstrap statistics from saved results."""
+"""Make the checkpoint figure and bootstrap statistics from saved results.
+
+Panels: test RMSE and edge-recovery AP versus training length for the ridge
+baseline and the Lasso comparison, and precision-recall curves at 1000
+transitions. Metrics come from --metrics (published snapshot by default); PR
+curves need the per-fit arrays from a local run of network_recovery.py (--runs).
+"""
 import argparse
 import csv
 import json
@@ -10,17 +16,24 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[1]
+NOISE = .25
+LENGTHS = [100, 300, 1000]
+SEEDS = list(range(1001, 1011))
+METHODS = {'ridge': dict(label='Ridge (baseline)', color='#2a78d6', marker='o'),
+           'lasso': dict(label='Lasso (comparison)', color='#eb6834', marker='s')}
+INK, MUTED, GRID = '#1f1f1e', '#6b6a64', '#e6e5e0'
+PREVALENCE = 300 / 9900
 
 
-def checkpoint_summary(metrics_path):
+def checkpoint_summary(metrics_path, method='ridge'):
     with metrics_path.open(newline='') as handle:
         rows = list(csv.DictReader(handle))
     draws = np.random.default_rng(5420).integers(0, 10, size=(10000, 10))
     result = []
-    for length in [100, 300, 1000]:
-        selected = sorted((r for r in rows if r['method']=='ridge' and
-                           float(r['noise'])==.25 and int(r['length'])==length), key=lambda r:int(r['seed']))
-        assert [int(r['seed']) for r in selected] == list(range(1001,1011))
+    for length in LENGTHS:
+        selected = sorted((r for r in rows if r['method'] == method and
+                           float(r['noise']) == NOISE and int(r['length']) == length), key=lambda r: int(r['seed']))
+        assert [int(r['seed']) for r in selected] == SEEDS
         summary = dict(length=length, selected_alphas=[float(r['alpha']) for r in selected],
                        cv_rmse_mean=float(np.mean([float(r['cv_rmse']) for r in selected])),
                        cv_fold_sd_mean=float(np.mean([float(r['cv_fold_sd']) for r in selected])))
@@ -33,56 +46,96 @@ def checkpoint_summary(metrics_path):
     return result
 
 
-def plot(summary, output):
-    plt.rcParams.update({'font.size':11, 'axes.spines.top':False, 'axes.spines.right':False,
-                         'figure.facecolor':'white', 'savefig.facecolor':'white'})
-    fig, axes = plt.subplots(1,2,figsize=(11.5,5.3))
-    x = np.arange(3)
-    panels = [('test_rmse','Next-state prediction','Test RMSE (state units)','#146b81'),
-              ('average_precision','Directed-edge recovery','Average precision','#6c4893')]
-    for ax, (metric, title, ylabel, color) in zip(axes,panels):
-        means = np.array([r[metric]['mean'] for r in summary])
-        low = np.array([r[metric]['low'] for r in summary])
-        high = np.array([r[metric]['high'] for r in summary])
-        values = np.array([r[metric]['values'] for r in summary])
-        for seed in range(10):
-            ax.plot(x, values[:,seed],color=color,alpha=.16,lw=.9)
-        ax.errorbar(x,means,yerr=np.array([means-low,high-means]),fmt='o-',color=color,
-                    linewidth=2.5,markersize=7,capsize=6,capthick=1.8,label='Mean and 95% bootstrap CI')
-        for i, value in enumerate(means):
-            offset = (0,15) if metric=='test_rmse' else (0,-25)
-            ax.annotate(f'{value:.3f}',(i,value),xytext=offset,textcoords='offset points',
-                        ha='center',fontsize=11,color=color,fontweight='bold')
-        ax.set(title=title,ylabel=ylabel,xlabel='Training transitions per network',
-               xticks=x,xticklabels=['100','300','1000'],xlim=(-.18,2.18))
-        ax.grid(axis='y',alpha=.16)
-        if metric=='test_rmse':
-            ax.set_ylim(1.075,1.24)
-            ax.legend(loc='upper right',frameon=False,fontsize=9)
-        else:
-            ax.set_ylim(0,1.04)
-            ax.axhline(300/9900,color='#777',ls='--',lw=1)
-            ax.text(.02,.055,'Edge prevalence = 0.0303',transform=ax.transAxes,color='#666',fontsize=9)
-    fig.suptitle('Ridge baseline: more observations improve prediction and network recovery',fontsize=14,y=.98)
-    fig.text(.5,.90,'100 nodes, 300 directed edges | measurement-noise SD / stationary SD = 0.25',
-             ha='center',fontsize=10,color='#444')
-    fig.text(.5,.035,'10 independent network / trajectory draws; 10,000 bootstrap resamples of their mean.\n'
-             'Five chronological CV folds select ridge penalties; prediction uses separate 1,000-transition test trajectories.',
-             ha='center',fontsize=9,color='#444')
-    fig.subplots_adjust(left=.08,right=.98,bottom=.22,top=.78,wspace=.28)
-    output.parent.mkdir(parents=True,exist_ok=True)
-    fig.savefig(output,dpi=220)
+def pr_curves(runs, method, grid):
+    """Interpolated precision (max precision at recall >= r) per network, on a recall grid."""
+    curves = []
+    for seed in SEEDS:
+        path = runs / f'seed_{seed}' / f'{method}_T{LENGTHS[-1]}_noise{NOISE:g}.npz'
+        if not path.exists():
+            raise SystemExit(f'Missing {path}. Run scripts/network_recovery.py first (PR curves need per-fit arrays).')
+        saved = np.load(path)
+        precision, recall = saved['precision'], saved['recall']   # recall is non-increasing
+        envelope = np.maximum.accumulate(precision)               # max precision over recall >= current
+        index = np.searchsorted(-recall, -grid, side='right') - 1  # last point with recall >= r
+        curves.append(envelope[np.clip(index, 0, None)])
+    return np.array(curves)
+
+
+def style(ax, title, ylabel, xlabel):
+    ax.set_title(title, loc='left', fontsize=12, color=INK, pad=10)
+    ax.set_ylabel(ylabel, color=MUTED)
+    ax.set_xlabel(xlabel, color=MUTED)
+    ax.grid(axis='y', color=GRID, lw=.8)
+    ax.tick_params(colors=MUTED, length=3)
+    for side in ['left', 'bottom']:
+        ax.spines[side].set_color('#b8b7b0')
+
+
+def plot(summaries, curves, grid, output):
+    plt.rcParams.update({'font.size': 10.5, 'axes.spines.top': False, 'axes.spines.right': False,
+                         'figure.facecolor': 'white', 'savefig.facecolor': 'white', 'axes.axisbelow': True})
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5.4), gridspec_kw=dict(width_ratios=[1, 1, 1.05]))
+    x = np.arange(len(LENGTHS))
+    panels = [('test_rmse', 'Next-state prediction (lower is better)', 'Test RMSE (state units)'),
+              ('average_precision', 'Directed-edge recovery (higher is better)', 'Average precision')]
+    for ax, (metric, title, ylabel) in zip(axes[:2], panels):
+        for k, (method, spec) in enumerate(METHODS.items()):
+            summary = summaries[method]
+            means = np.array([r[metric]['mean'] for r in summary])
+            low = np.array([r[metric]['low'] for r in summary])
+            high = np.array([r[metric]['high'] for r in summary])
+            shift = (k - .5) * .06   # small dodge so error bars do not overlap
+            ax.errorbar(x + shift, means, yerr=[means - low, high - means], color=spec['color'], marker=spec['marker'],
+                        lw=2, ms=7, capsize=4, capthick=1.5, mec='white', mew=1.2, label=spec['label'], zorder=3)
+            offset = (10, 9 if k == 0 else -9)   # ridge label above, Lasso below
+            ax.annotate(f'{means[-1]:.3f}', (x[-1] + shift, means[-1]), xytext=offset, textcoords='offset points',
+                        va='center', fontsize=10, color=INK)
+        style(ax, title, ylabel, 'Training transitions per network')
+        ax.set(xticks=x, xticklabels=[str(n) for n in LENGTHS], xlim=(-.25, 2.45))
+        if metric == 'average_precision':
+            ax.set_ylim(0, 1.02)
+            ax.axhline(PREVALENCE, color=MUTED, ls='--', lw=1)
+            ax.text(-.2, PREVALENCE + .025, f'Random ranking = {PREVALENCE:.3f}', color=MUTED, fontsize=9)
+    axes[0].legend(loc='upper right', frameon=False)
+
+    ax = axes[2]
+    for method, spec in METHODS.items():
+        c = curves[method]
+        ap = summaries[method][-1]['average_precision']['mean']
+        ax.fill_between(grid, c.min(axis=0), c.max(axis=0), color=spec['color'], alpha=.16, lw=0)
+        ax.plot(grid, c.mean(axis=0), color=spec['color'], lw=2, label=f"{spec['label']}, AP {ap:.3f}")
+    ax.axhline(PREVALENCE, color=MUTED, ls='--', lw=1)
+    ax.text(.02, PREVALENCE + .025, f'Random ranking = {PREVALENCE:.3f}', color=MUTED, fontsize=9)
+    style(ax, 'Precision-recall at 1000 transitions', 'Precision', 'Recall (fraction of true edges found)')
+    ax.set(xlim=(0, 1), ylim=(0, 1.02))
+    ax.grid(axis='x', color=GRID, lw=.8)
+    ax.legend(loc='center left', frameon=False)
+
+    fig.suptitle('More data helps both methods; ridge and Lasso rank differently on prediction and recovery',
+                 fontsize=14, color=INK, x=.06, ha='left', y=.98)
+    fig.text(.06, .905, '100 nodes, 300 directed edges | measurement-noise SD / stationary SD = 0.25 | '
+             'five chronological CV folds select each penalty', fontsize=10, color=MUTED, ha='left')
+    fig.text(.06, .025, 'Points: mean over 10 independent networks; error bars: 95% bootstrap intervals (10,000 resamples). '
+             'PR lines: mean interpolated precision; bands: range across the 10 networks.\n'
+             'Lasso sets 96% of off-diagonal coefficients exactly to zero; those edges tie, so its precision drops to the random level near recall 0.92. '
+             'Test data: separate 1,000-transition trajectories.', fontsize=8.8, color=MUTED, ha='left')
+    fig.subplots_adjust(left=.06, right=.985, bottom=.22, top=.78, wspace=.27)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(output, dpi=200)
     plt.close(fig)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output',type=Path,default=ROOT/'results/checkpoint/baseline.png')
-    parser.add_argument('--metrics',type=Path,default=ROOT/'reference_results/baseline/metrics.csv')
+    parser.add_argument('--output', type=Path, default=ROOT / 'results/checkpoint/baseline.png')
+    parser.add_argument('--metrics', type=Path, default=ROOT / 'reference_results/baseline/metrics.csv')
+    parser.add_argument('--runs', type=Path, default=ROOT / 'results/baseline')
     args = parser.parse_args()
-    summary = checkpoint_summary(args.metrics)
-    plot(summary,args.output)
-    print(json.dumps(summary[-1],indent=2))
+    summaries = {m: checkpoint_summary(args.metrics, m) for m in METHODS}
+    grid = np.linspace(0, 1, 201)
+    curves = {m: pr_curves(args.runs, m, grid) for m in METHODS}
+    plot(summaries, curves, grid, args.output)
+    print(json.dumps(summaries['ridge'][-1], indent=2))
     print(args.output)
 
 
