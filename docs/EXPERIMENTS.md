@@ -8,14 +8,16 @@ they are not included in the repository or required to reproduce the final runs.
 
 This implements the topic guide's first experiment: simulate noisy linear dynamics
 on a known sparse directed graph, regress each node's next state on every current
-node state with Lasso, and evaluate directed edges with precision-recall curves.
-Ridge is the reference comparison.
+node state, and evaluate directed edges with precision-recall curves. Ridge
+regression, tuned by time-ordered cross-validation, is the baseline; the guide's
+Lasso regression is the comparison, fitted on identical splits with the same
+tuning budget.
 
 Figures and tables are in **results/baseline/**.
 
-At measurement-noise ratio 0.25, Lasso's mean edge-recovery AP rises from 0.261
-at 100 transitions to 0.752 at 300 and 0.917 at 1000 (ten independent graph draws).
-At 1000 transitions, ridge has higher AP (0.942), although Lasso predicts the next
+At measurement-noise ratio 0.25, ridge's mean edge-recovery AP rises from 0.306
+at 100 transitions to 0.715 at 300 and 0.942 at 1000 (ten independent graph draws).
+At 1000 transitions, Lasso has lower AP (0.917), although it predicts the next
 observed state better (RMSE 1.070 versus 1.095). Prediction and structure recovery
 therefore produce different rankings in this experiment.
 

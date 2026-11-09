@@ -2,7 +2,7 @@
 
 Curated snapshots of the completed experiments:
 
-- [Linear diffusion](baseline/): 180 Lasso/ridge fits.
+- [Linear diffusion](baseline/): 180 fits (ridge baseline, Lasso comparison).
 - [SIS with raw-state regressions](sis/): 120 fits.
 - [Model-based Lasso comparison](sis_aware/): 60 additional fits, compared with the 120 SIS baselines.
 

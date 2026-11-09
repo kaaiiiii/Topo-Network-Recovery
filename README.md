@@ -9,7 +9,7 @@ Four completed experiments use ten independently generated 100-node,
 
 | Experiment | Estimators | Completed fits | Results |
 | --- | --- | ---: | --- |
-| Noisy linear diffusion | Lasso and ridge | 180 | [Linear baseline](reference_results/baseline/) |
+| Noisy linear diffusion | Ridge baseline; Lasso comparison | 180 | [Linear baseline](reference_results/baseline/) |
 | Nonlinear SIS dynamics | Raw-state Lasso and ridge | 120 | [SIS comparison](reference_results/sis/) |
 | Known SIS dynamics | Nonnegative sparse regression | 60 additional | [Model-based Lasso comparison](reference_results/sis_aware/) |
 | Local polynomial preprocessing | Smoothed-state and derivative regression | 60 additional | [Local polynomial comparison](reference_results/sis_local_poly/) |
@@ -20,9 +20,10 @@ PNG figures and CSV tables can be viewed directly on GitHub.
 
 ## Findings
 
-- **More observations help the linear baseline.** At measurement-noise ratio
-  0.25, Lasso's mean edge average precision (AP) increases from 0.261 at 100
-  transitions to 0.752 at 300 and 0.917 at 1000.
+- **More observations help the ridge baseline.** At measurement-noise ratio
+  0.25, ridge's mean edge average precision (AP) increases from 0.306 at 100
+  transitions to 0.715 at 300 and 0.942 at 1000. The Lasso comparison reaches
+  0.917 at 1000 transitions while predicting better (test RMSE 1.070 vs 1.095).
 - **Good predictions do not guarantee network recovery.** For noiseless SIS
   at spreading strength 3, raw-state Lasso's mean AP is 0.438, while its test
   RMSE is only 0.153 times the persistence predictor's RMSE.
@@ -131,8 +132,10 @@ repository. They are not part of this code repository.
 ## Methods and references
 
 Read [the detailed experiment notes](docs/EXPERIMENTS.md) for parameters,
-validation, uncertainty and convergence checks. The initial
-experiment follows the course guide's Lasso exercise. The Model-based Lasso extension
+validation, uncertainty and convergence checks. The linear
+experiment uses ridge regression as the baseline, tuned by time-ordered
+cross-validation, with the course guide's Lasso regression as the comparison.
+The Model-based Lasso extension
 uses model-based identification with nonnegative sparse regression.
 
 - [Shahrampour and Preciado: topology identification via power spectral analysis](https://arxiv.org/abs/1308.2248).
