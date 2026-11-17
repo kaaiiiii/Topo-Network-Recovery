@@ -115,20 +115,27 @@ def main_table(baseline, fine):
 
 
 def t90_table(fine):
+    """T90 per method, plus the paired ratio T90(Lasso)/T90(ridge): geometric mean of per-network ratios
+    with a paired bootstrap interval. An interval containing 1 is a tie."""
     lengths = sorted({int(r['length']) for r in fine})
     out = []
     for level in sorted({float(r['noise']) for r in fine}):
-        cells = []
+        t90 = {}
         for score in SERIES:
             t = []
             for seed in SEEDS:
                 rows = sorted((r for r in fine if int(r['seed']) == seed and float(r['noise']) == level),
                               key=lambda r: int(r['length']))
                 t.append(t_target(lengths, [float(r[f'ap_{score}']) for r in rows], .9))
-            m, lo, hi = ci(t, log=True)
-            cells.append(f'{m:.0f} [{lo:.0f}, {hi:.0f}]')
+            t90[score] = np.array(t)
+        cells = [f'{m:.0f} [{lo:.0f}, {hi:.0f}]' for m, lo, hi in (ci(t90[s], log=True) for s in SERIES)]
+        for score in ['lasso', 'lasso_tiebreak']:
+            m, lo, hi = ci(t90[score] / t90['ridge'], log=True)
+            cells.append(f'{m:.3f} [{lo:.3f}, {hi:.3f}]' + ('$^\\dagger$' if lo <= 1 <= hi else ''))
         out.append(f'{level:g} & ' + ' & '.join(cells) + ' \\\\')
-    return ('\\begin{tabular}{lccc}\n\\toprule\nNoise ratio & Ridge (baseline) & Lasso & Lasso, complete ranking \\\\\n'
+    return ('\\begin{tabular}{lccccc}\n\\toprule\n & \\multicolumn{3}{c}{$T_{90}$ (transitions)} & '
+            '\\multicolumn{2}{c}{Paired ratio to ridge} \\\\\n\\cmidrule(lr){2-4}\\cmidrule(lr){5-6}\n'
+            'Noise ratio & Ridge (baseline) & Lasso & Lasso, complete ranking & Lasso & Lasso, complete ranking \\\\\n'
             '\\midrule\n' + '\n'.join(out) + '\n\\bottomrule\n\\end{tabular}')
 
 
