@@ -37,7 +37,7 @@ SOURCES = {
     'email-Eu-core.txt.gz': '4b47acdb80197b085fe63c819c357ae488131ee904ed93d1b219a68b0f9e245f',
     'email-Eu-core-department-labels.txt.gz': 'e5abe5b4581a480032a63adcf2576c161785f45692642c6ebb0b1276f0f33669',
 }
-SETUP = dict(department=4, topologies=['email', 'degree', 'random'], lengths=[100, 300, 1000], noise=.25,
+SETUP = dict(department=4, departments_with_50_plus=[4, 14, 1, 21, 15, 7], topologies=['email', 'degree', 'random'], lengths=[100, 300, 1000], noise=.25,
              seeds=CONFIG['seeds'], methods=['ridge', 'lasso'])
 
 
@@ -156,14 +156,16 @@ def summarize(rows):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--jobs', type=int, default=4)
+    parser.add_argument('--department', type=int, default=SETUP['department'],
+                        help='department label; every department with 50+ members is listed in SETUP')
     args = parser.parse_args()
     fetch()
-    nodes, edges = department_graph(SETUP['department'])
-    out = ROOT / 'results' / 'email_eu_core'
+    nodes, edges = department_graph(args.department)
+    out = ROOT / 'results' / 'email_eu_core' / f'dept_{args.department}'
     out.mkdir(parents=True, exist_ok=True)
     graph = nx.DiGraph(); graph.add_nodes_from(range(nodes)); graph.add_edges_from(edges)
     in_deg, out_deg = np.array([d for _, d in graph.in_degree()]), np.array([d for _, d in graph.out_degree()])
-    info = dict(setup=SETUP, nodes=nodes, edges=len(edges), density=len(edges) / (nodes * (nodes - 1)),
+    info = dict(setup=SETUP, department=args.department, nodes=nodes, edges=len(edges), density=len(edges) / (nodes * (nodes - 1)),
                 reciprocity=nx.reciprocity(graph), max_in_degree=int(in_deg.max()), max_out_degree=int(out_deg.max()),
                 isolated_nodes=int(np.sum(in_deg + out_deg == 0)), sources=SOURCES,
                 code_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
